@@ -37,6 +37,9 @@ setup(
             'bounce = {}.__main__:console'.format(name),
         ],
     },
-    scripts=['bin/bouncefile.py', 'bin/bounce-server'],
+    scripts=[
+        '{}/bin/bouncefile.py'.format(name),
+        '{}/bin/bounce-server'.format(name)
+    ],
     #test_suite = "endpoints_test",
 )
