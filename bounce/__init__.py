@@ -9,6 +9,9 @@ __version__ = "0.1"
 
 
 def import_configs(name='BOUNCE_CONFIG'):
+    if name in os.environ:
+        import_config(os.environ[name])
+
     increment_name = lambda name, num: '{}_{}'.format(name, num)
     num = 1
     name_num = increment_name(name, num)
