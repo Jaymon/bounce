@@ -28,6 +28,16 @@ def index():
     ])
 
 
+@app.route("/robots.txt")
+def robots():
+    #<link rel="search" type="application/opensearchdescription+xml" title="search" href="/opensearch.xml">
+    headers = {"Content-Type": "text/plain; charset=utf-8"}
+    return ("\n".join([
+        "User-agent: *",
+        "Disallow: /",
+    ]), 200, headers)
+
+
 @app.route("/opensearch.xml")
 def opensearch():
     #<link rel="search" type="application/opensearchdescription+xml" title="search" href="/opensearch.xml">
