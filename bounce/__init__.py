@@ -5,7 +5,7 @@ from . import config
 from server import app as server
 
 
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 
 def import_configs(name='BOUNCE_CONFIG'):

@@ -2,8 +2,6 @@ import re
 import urllib
 import inspect
 
-import pout
-
 
 class Commands(object):
     def __init__(self):
