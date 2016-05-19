@@ -1,6 +1,8 @@
 import re
 import urllib
 
+from flask import url_for
+
 from .core import commands
 
 
@@ -35,17 +37,48 @@ commands.add("yti ty yta ytnsfw", ytnsfw_callback)
 commands.add("imdb", "http://www.imdb.com/find?s=all&q={}")
 commands.add("bmn bug bugmenot", "http://www.bugmenot.com/view/{}")
 commands.add("wks wikiseek", "http://www.wikiseek.com/results.php?q={}")
-commands.add("godaddy godad gd", "http://www.godaddy.com/gdshop/registrar/search.asp?isc=ffsearch&checkavail=1&domaintocheck={}")
+commands.add("gd", "http://www.godaddy.com/gdshop/registrar/search.asp?isc=ffsearch&checkavail=1&domaintocheck={}")
 commands.add("ws websnif websniff", "http://web-sniffer.net/?submit=Submit&http=1.1&gzip=yes&type=GET&url={}")
-commands.add("ebay eb", "http://search.ebay.com/search/search.dll?from=R40&category0=&satitle={}")
+commands.add("eb", "http://www.ebay.com/sch/i.html?_nkw={}")
 # added 1-6-08...
 commands.add("php", "http://us2.php.net/{}")
 commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
+
+# 5-19-2016
+def py_callback(q, version="2"):
+    d = {
+        "set": "https://docs.python.org/{}/library/stdtypes.html#set",
+        "list": "https://docs.python.org/{}/library/functions.html#list",
+        "tuple": "https://docs.python.org/{}/library/functions.html#tuple",
+        "dict": "https://docs.python.org/{}/library/stdtypes.html#dict",
+        "collections": "https://docs.python.org/{}/library/collections.html#module-collections",
+        "format": "https://docs.python.org/{}/library/string.html#formatspec",
+        "functions": "https://docs.python.org/{}/library/functions.html",
+        "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
+        "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
+        "exceptions": "https://docs.python.org/{}/library/exceptions.html",
+        "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
+        "str": "https://docs.python.org/2/library/stdtypes.html#string-methods",
+    }
+    q = q.lower()
+
+    if q in d:
+        url = d[q].format(version)
+    else:
+        url = "https://docs.python.org/{}/library/{}.html".format(version, q)
+
+    return url
 # added 8-16-08
-commands.add("pydoc py p", "http://docs.python.org/library/{}.html")
+commands.add("py", py_callback)
+# 5-19-2016
+def py3_callback(q, version="3.5"):
+    return py_callback(q, version)
+commands.add("py3", py3_callback)
+
+
 # added 10-28-8...
 commands.add("mtv", "http://www.mtvmusic.com/search/?term={}")
-commands.add("hulu h", "http://www.hulu.com/videos/search?query={}")
+commands.add("h", "http://www.hulu.com/videos/search?query={}")
 commands.add("gf", "http://finance.google.com/finance?q={}")
 # 11-6-08...
 commands.add("t tw twit ts", "https://twitter.com/search?q={}&src=tyah")
@@ -57,7 +90,7 @@ commands.add("ne", "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&DE
 commands.add("al alexa", "http://www.alexa.com/data/details/traffic_details/{}")
 
 # 1-9-09...
-commands.add("nf netflix net", "http://www.netflix.com/Search?lnkce=iwsceOf&v1={}&lnkce=acsNoEnhRt")
+commands.add("nf net", "https://www.netflix.com/search/{}")
 # 10-17-12 better netflix search
 commands.add("nfi neti", "http://instantwatcher.com/titles?q={}&search_episodes=")
 
@@ -141,4 +174,9 @@ commands.add(
   'http://www.crunchbase.com/search?query={}',
   'Crunchbase company search'
 )
+
+# 5-19-2016
+def list_callback(q):
+    return url_for("ls")
+commands.add("list ls", list_callback, "list all the available commands")
 

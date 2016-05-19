@@ -8,6 +8,13 @@ class Commands(object):
         self.commands = {}
         self.default_cmd = ""
 
+    def unquote(self, val):
+        # py3 http://stackoverflow.com/questions/11768070/transform-url-string-into-normal-string-in-python-20-to-space-etc#comment44058808_11768102
+        return urllib.unquote_plus(val)
+
+    def quote(self, val):
+        return urllib.quote_plus(val)
+
     def add(self, commands, val, note="", default=False):
         cmds = re.split("\s+", commands)
         if default:
@@ -44,6 +51,7 @@ class Commands(object):
 
         if "callback" in self.commands[cmd]:
             url = self.commands[cmd]["callback"](question)
+
         else:
             # http://stackoverflow.com/a/9345102/5006
             url = self.commands[cmd]["url"].format(urllib.quote_plus(question))
