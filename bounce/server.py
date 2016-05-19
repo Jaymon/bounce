@@ -1,4 +1,5 @@
 import re
+import logging
 
 from flask import Flask, session, redirect, url_for, escape, request
 
@@ -6,6 +7,7 @@ from .core import commands
 
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 
 
 @app.route('/')
@@ -23,6 +25,7 @@ def index():
         q = request.args.get('q', '')
 
     url = commands.find(q)
+    logger.info("Redirecting to {}".format(url))
     return "\n".join([
         "<!DOCTYPE html>",
         "<html>",

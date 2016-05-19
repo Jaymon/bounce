@@ -3,16 +3,10 @@ import argparse
 import subprocess
 
 
-#sys.path.insert(0, "/Users/jaymon/Projects/bounce/_bounce")
 sys.path.insert(0, "")
 
 
 from bounce import commands, server, __version__, import_config
-
-
-# def api():
-#     server.debug = True
-#     server.run()
 
 
 def console():
@@ -33,6 +27,6 @@ def console():
         subprocess.call(["open", url])
 
 
-sys.exit(console())
-#sys.exit(api())
+if name == "__main__":
+    sys.exit(console())
 
