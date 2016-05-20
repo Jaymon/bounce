@@ -9,7 +9,6 @@ from server import app as server
 __version__ = "0.1.3"
 logger = logging.getLogger(__name__)
 
-import pout
 
 def import_configs(name='BOUNCE_CONFIG'):
     if name in os.environ:
