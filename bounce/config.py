@@ -56,7 +56,12 @@ def py_callback(q, version="2"):
         "functions": "https://docs.python.org/{}/library/functions.html",
         "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
         "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
+
         "exceptions": "https://docs.python.org/{}/library/exceptions.html",
+        "exception": "https://docs.python.org/{}/library/exceptions.html",
+        "except": "https://docs.python.org/{}/library/exceptions.html",
+        "exc": "https://docs.python.org/{}/library/exceptions.html",
+
         "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/2/library/stdtypes.html#string-methods",
     }
