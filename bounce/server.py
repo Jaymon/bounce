@@ -12,17 +12,16 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
-    # we pull out q this way because we are tricksy here, because q can contain urls
-    # and those urls can have ? and & we want to respect that without the person submitting
-    # having to worry about encoding the url. So everything after the q is considered part of the
-    # q regardless of it has & in it, this also means that we violate the http spec because
-    # query string parameters actual have order, shrug
-    m = re.search("q=(.*$)", request.environ.get("QUERY_STRING", ""))
-    if m:
-        q = commands.unquote(m.group(1))
 
-    else:
-        q = request.args.get('q', '')
+    q = request.args.get('q', '')
+    if commands.is_url(q):
+        # we pull out q this way because we are tricksy here, because q can contain urls
+        # and those urls can have ? and & we want to respect that without the person submitting
+        # having to worry about encoding the url. So everything after the q is considered part of the
+        # q regardless of it has & in it, this also means that we violate the http spec because
+        # query string parameters actual have order, shrug
+        m = re.search("q=(.*$)", request.environ.get("QUERY_STRING", ""))
+        q = commands.unquote(m.group(1))
 
     url = commands.find(q)
     logger.info("Redirecting to {}".format(url))

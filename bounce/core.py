@@ -15,6 +15,9 @@ class Commands(object):
     def quote(self, val):
         return urllib.quote_plus(val)
 
+    def is_url(self, val):
+        return True if re.match("\S+://\S+", val) else False
+
     def add(self, commands, val, note="", default=False):
         cmds = re.split("\s+", commands)
         if default:
@@ -38,7 +41,7 @@ class Commands(object):
                 }
 
     def find(self, q):
-        if re.match("\S+://", q):
+        if self.is_url(q): 
             # q is already a url
             return q
 
