@@ -48,12 +48,21 @@ commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
 def py_callback(q, version="2"):
     d = {
         "set": "https://docs.python.org/{}/library/stdtypes.html#set",
-        "list": "https://docs.python.org/{}/library/functions.html#list",
+
+        #"list": "https://docs.python.org/{}/library/functions.html#list",
+        "list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
+
         "tuple": "https://docs.python.org/{}/library/functions.html#tuple",
         "dict": "https://docs.python.org/{}/library/stdtypes.html#dict",
         "collections": "https://docs.python.org/{}/library/collections.html#module-collections",
         "format": "https://docs.python.org/{}/library/string.html#formatspec",
+
         "functions": "https://docs.python.org/{}/library/functions.html",
+        "funcs": "https://docs.python.org/{}/library/functions.html",
+        "func": "https://docs.python.org/{}/library/functions.html",
+        "builtins": "https://docs.python.org/{}/library/functions.html",
+        "builtin": "https://docs.python.org/{}/library/functions.html",
+
         "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
         "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
 
