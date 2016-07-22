@@ -194,3 +194,6 @@ def list_callback(q):
     return url_for("ls")
 commands.add("list ls", list_callback, "list all the available commands")
 
+# 7-21-2016
+commands.add('ch chefdoc', 'https://docs.chef.io/resource.html#chef-resources', 'Chef documentation')
+
