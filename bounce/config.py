@@ -197,3 +197,6 @@ commands.add("list ls", list_callback, "list all the available commands")
 # 7-21-2016
 commands.add('ch chefdoc', 'https://docs.chef.io/resource.html#chef-resources', 'Chef documentation')
 
+# 8-19-2016
+commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
+
