@@ -20,7 +20,6 @@ commands.add("wpg wkg wikigoogle", "http://www.google.com/custom?domains=en.wiki
 commands.add("tv", "http://www.tv.com/search.php?type=11&stype=all&tag=search%3Bbutton&qs={}")
 commands.add("y yhoo", "http://search.yahoo.com/bin/search?p={}")
 commands.add("am amazon amaz a", "http://www.amazon.com/s/ref=nb_ss_gw/102-5754341-9464967?url=search-alias%3Daps&Go=Go&field-keywords={}")
-commands.add("msn", "http://search.msn.com/results.aspx?q={}")
 commands.add("epg ep epguides eg", "http://www.google.com/search?hl=en&q=allintitle%3A&q=site%3Aepguides.com&btnG=Search&q={}")
 commands.add("yt", "http://www.youtube.com/results?search=Search&search_query={}")
 
@@ -48,6 +47,7 @@ commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
 def py_callback(q, version="2"):
     d = {
         "set": "https://docs.python.org/{}/library/stdtypes.html#set",
+        "file": "https://docs.python.org/2/tutorial/inputoutput.html#methods-of-file-objects",
 
         #"list": "https://docs.python.org/{}/library/functions.html#list",
         "list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
@@ -71,6 +71,7 @@ def py_callback(q, version="2"):
         "except": "https://docs.python.org/{}/library/exceptions.html",
         "exc": "https://docs.python.org/{}/library/exceptions.html",
 
+        "strings": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/2/library/stdtypes.html#string-methods",
     }
@@ -82,8 +83,7 @@ def py_callback(q, version="2"):
         url = "https://docs.python.org/{}/library/{}.html".format(version, q)
 
     return url
-# added 8-16-08
-commands.add("py", py_callback)
+# added 8-16-08 commands.add("py", py_callback)
 # 5-19-2016
 def py3_callback(q, version="3.5"):
     return py_callback(q, version)
@@ -126,7 +126,7 @@ def lds_callback(volume, question):
     if question:
         bits = question.split(" ", 1)
         book = bits[0] if bits[0] else ''
-        chapter = bits[1] if bits[1] else ''
+        chapter = bits[1] if len(bits) > 1 else ''
 
         if book:
             url += "/{}".format(book)
@@ -137,14 +137,14 @@ def lds_callback(volume, question):
     return url
 
 def dc_callback(q):
-    q = "dc {}".format(q) if q else "dc"
+    q = "dc {}".format(q) if q else ""
     return lds_callback('dc-testament', q)
 commands.add("dc dandc", dc_callback)
 commands.add("bible", lambda q: lds_callback("bible", q))
 commands.add("ot", lambda q: lds_callback("ot", q))
 commands.add("nt", lambda q: lds_callback("nt", q))
 commands.add("bofm bm bom", lambda q: lds_callback("bofm", q))
-commands.add("pgp pearl pg", lambda q: lds_callback("pgp", q))
+commands.add("pgp pearl pg pofpg pgop", lambda q: lds_callback("pgp", q))
 
 # 2-1-2012
 commands.add('sec 10k 10q s1', 'http://www.sec.gov/cgi-bin/browse-edgar?company={}&owner=exclude&Find=Find+Companies&action=getcompany')
@@ -185,13 +185,13 @@ commands.add(
 # 1-21-2014
 commands.add(
   'cb',
-  'http://www.crunchbase.com/search?query={}',
+  'https://www.crunchbase.com/app/search?q={}',
   'Crunchbase company search'
 )
 
 # 5-19-2016
 def list_callback(q):
-    return url_for("ls")
+    return url_for("ls", q=q) if q else url_for("ls")
 commands.add("list ls", list_callback, "list all the available commands")
 
 # 7-21-2016

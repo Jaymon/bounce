@@ -79,6 +79,9 @@ def opensearch():
 
 @app.route("/list/")
 def ls():
+    q = request.args.get('q', '')
+    if q: q = q.lower()
+
     lines = []
     lines.append('<table style="width: 100%;" border="1">')
     lines.append('<tr>')
@@ -88,6 +91,7 @@ def ls():
     lines.append('</tr>')
 
     for cmd, val, note in commands:
+        if q and q not in cmd.lower(): continue
         lines.append('<tr >')
         lines.append('<td style="padding: 10px;">{}</td>'.format(cmd))
         lines.append('<td style="padding: 10px;">')
