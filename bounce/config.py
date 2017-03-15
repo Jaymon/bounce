@@ -74,6 +74,9 @@ def py_callback(q, version="2"):
         "strings": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/2/library/stdtypes.html#string-methods",
+
+        "code": "https://hg.python.org/cpython/file/2.7/Lib",
+
     }
     q = q.lower()
 
