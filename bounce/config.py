@@ -13,8 +13,11 @@ commands.add("gi", "http://images.google.com/images?um=1&ie=UTF-8&sa=N&tab=wi&q=
 # 9-29-11
 commands.add("gt translate trans", "http://translate.google.com/translate?hl=en&sl=auto&tl=en&u={}")
 
-commands.add("d dict dic dictionary", "http://www.dictionary.com/browse/{}") # dictionary
-commands.add("pb", "http://thepiratebay.org/search.php?q={}") # pirate bay torrent
+commands.add("dictionary", "http://www.dictionary.com/browse/{}") # dictionary
+commands.add("d dict dic dictionary", "https://en.wiktionary.org/wiki/{}") # dictionary
+# 11-13-09
+commands.add("nw ninja", "http://ninjawords.com/?q={}")
+
 commands.add("wk", "http://en.wikipedia.org/wiki/Special:Search?fulltext=Search&search={}")
 commands.add("wpg wkg wikigoogle", "http://www.google.com/custom?domains=en.wikipedia.org&sitesearch=en.wikipedia.org&q={}")
 commands.add("tv", "http://www.tv.com/search.php?type=11&stype=all&tag=search%3Bbutton&qs={}")
@@ -70,6 +73,8 @@ def py_callback(q, version="2"):
         "exception": "https://docs.python.org/{}/library/exceptions.html",
         "except": "https://docs.python.org/{}/library/exceptions.html",
         "exc": "https://docs.python.org/{}/library/exceptions.html",
+        "error": "https://docs.python.org/{}/library/exceptions.html",
+        "errors": "https://docs.python.org/{}/library/exceptions.html",
 
         "strings": "https://docs.python.org/2/library/stdtypes.html#string-methods",
         "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
@@ -98,23 +103,22 @@ commands.add("mtv", "http://www.mtvmusic.com/search/?term={}")
 commands.add("h", "http://www.hulu.com/videos/search?query={}")
 commands.add("gf", "http://finance.google.com/finance?q={}")
 # 11-6-08...
-commands.add("t tw twit ts", "https://twitter.com/search?q={}&src=tyah")
+commands.add("t tw twit ts", "https://twitter.com/search?q={}&f=tweets&vertical=news")
 # 11-19-08...
-commands.add("yc syc hn", "http://searchyc.com/{}")
+commands.add("yc syc hn", "https://hn.algolia.com/?query={}&sort=byPopularity&prefix&page=0&dateRange=all&type=story")
+
 commands.add("li", "http://www.lipsum.com/feed/html")
 # 12-4-08...
-commands.add("ne", "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&DEPA=0&Order=BESTMATCH&Description={}&x=0&y=0")
+commands.add("new", "http://www.newegg.com/Product/ProductList.aspx?Submit=ENE&DEPA=0&Order=BESTMATCH&Description={}&x=0&y=0")
 commands.add("al alexa", "http://www.alexa.com/data/details/traffic_details/{}")
 
 # 1-9-09...
-commands.add("nf net", "https://www.netflix.com/search/{}")
+commands.add("nf ne net", "https://www.netflix.com/search/{}")
 # 10-17-12 better netflix search
 commands.add("nfi neti", "http://instantwatcher.com/titles?q={}&search_episodes=")
 
 # 1-31-09
 commands.add("down", "http://downforeveryoneorjustme.com/{}")
-# 11-13-09
-commands.add("nw ninja", "http://ninjawords.com/?q={}")
 # 11-19-09
 commands.add("tviv", "http://tviv.org/w/index.php?search={}&title=Special%3ASearch")
 # 9-30-10
