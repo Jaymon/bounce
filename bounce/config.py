@@ -91,7 +91,8 @@ def py_callback(q, version="2"):
         url = "https://docs.python.org/{}/library/{}.html".format(version, q)
 
     return url
-# added 8-16-08 commands.add("py", py_callback)
+# added 8-16-08
+commands.add("py", py_callback)
 # 5-19-2016
 def py3_callback(q, version="3.5"):
     return py_callback(q, version)
