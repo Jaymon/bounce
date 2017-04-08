@@ -14,7 +14,7 @@ commands.add("gi", "http://images.google.com/images?um=1&ie=UTF-8&sa=N&tab=wi&q=
 commands.add("gt translate trans", "http://translate.google.com/translate?hl=en&sl=auto&tl=en&u={}")
 
 commands.add("dictionary", "http://www.dictionary.com/browse/{}") # dictionary
-commands.add("d dict dic dictionary", "https://en.wiktionary.org/wiki/{}") # dictionary
+commands.add("d dict dic", "https://en.wiktionary.org/wiki/{}") # dictionary
 # 11-13-09
 commands.add("nw ninja", "http://ninjawords.com/?q={}")
 
