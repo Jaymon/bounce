@@ -43,7 +43,15 @@ commands.add("gd", "http://www.godaddy.com/gdshop/registrar/search.asp?isc=ffsea
 commands.add("ws websnif websniff", "http://web-sniffer.net/?submit=Submit&http=1.1&gzip=yes&type=GET&url={}")
 commands.add("eb", "http://www.ebay.com/sch/i.html?_nkw={}")
 # added 1-6-08...
-commands.add("php", "http://us2.php.net/{}")
+def php_callback(q):
+    # allows watching youtube nsfw vidoes without logging in
+    if q:
+        url = "http://us2.php.net/{}".format(q)
+    else:
+        url = "http://us2.php.net/manual/en/funcref.php"
+    return url
+#commands.add("php", "http://us2.php.net/{}")
+commands.add("php", php_callback)
 commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
 
 # 5-19-2016
@@ -74,6 +82,7 @@ def py_callback(q, version="2"):
         "except": "https://docs.python.org/{}/library/exceptions.html",
         "exc": "https://docs.python.org/{}/library/exceptions.html",
         "error": "https://docs.python.org/{}/library/exceptions.html",
+        "err": "https://docs.python.org/{}/library/exceptions.html",
         "errors": "https://docs.python.org/{}/library/exceptions.html",
 
         "strings": "https://docs.python.org/2/library/stdtypes.html#string-methods",
