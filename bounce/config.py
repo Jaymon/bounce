@@ -217,3 +217,6 @@ commands.add('ch chefdoc', 'https://docs.chef.io/resource.html#chef-resources', 
 # 8-19-2016
 commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
 
+# 5-15-2017
+commands.add('wb way', 'https://web.archive.org/web/*/{}', 'Wayback machine of Internet archive, pass in full urls')
+
