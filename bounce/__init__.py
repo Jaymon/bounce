@@ -6,7 +6,7 @@ from . import config
 from server import app as server
 
 
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 logger = logging.getLogger(__name__)
 
 
@@ -32,6 +32,7 @@ def import_configs(name='BOUNCE_CONFIG'):
 def import_config(config_module_path):
     # not 3+ compatible
     # http://stackoverflow.com/questions/6357361/alternative-to-execfile-in-python-3
+    config_module_path = os.path.abspath(os.path.expanduser(str(config_module_path)))
     execfile(config_module_path)
 
 

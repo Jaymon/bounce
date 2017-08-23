@@ -90,6 +90,7 @@ the command `ls` will list all the commands bounce supports
 
 To test locally from the repo:
 
+    $ export BOUNCE_CONFIG=/path/to/bounce/config.py
     $ python bounce/bin/bounce-server
 
 That should produce output like this:

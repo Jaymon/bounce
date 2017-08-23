@@ -90,7 +90,12 @@ def ls():
     lines.append('<th>note</th>')
     lines.append('</tr>')
 
-    for cmd, val, note in commands:
+    # for display, sort the commands in alphabetical order
+    cs = sorted(commands, key=lambda cmd: cmd[0])
+    import pout
+    pout.v(cs)
+
+    for cmd, val, note in cs:
         if q and q not in cmd.lower(): continue
         lines.append('<tr >')
         lines.append('<td style="padding: 10px;">{}</td>'.format(cmd))
