@@ -92,8 +92,6 @@ def ls():
 
     # for display, sort the commands in alphabetical order
     cs = sorted(commands, key=lambda cmd: cmd[0])
-    import pout
-    pout.v(cs)
 
     for cmd, val, note in cs:
         if q and q not in cmd.lower(): continue

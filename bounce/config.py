@@ -14,9 +14,12 @@ commands.add("gi", "http://images.google.com/images?um=1&ie=UTF-8&sa=N&tab=wi&q=
 commands.add("gt translate trans", "http://translate.google.com/translate?hl=en&sl=auto&tl=en&u={}")
 
 commands.add("dictionary", "http://www.dictionary.com/browse/{}") # dictionary
-commands.add("d dict dic", "https://en.wiktionary.org/wiki/{}") # dictionary
+commands.add("wd wikidict dw", "https://en.wiktionary.org/wiki/{}") # dictionary
 # 11-13-09
-commands.add("nw ninja", "http://ninjawords.com/?q={}")
+commands.add("d dict dic nw ninja", "http://ninjawords.com/?q={}", "definition for word")
+# 09-26-2017
+commands.add("ds sy syn", "https://www.powerthesaurus.org/{}/synonyms", "Synonyms for word")
+commands.add("da an ant", "https://www.powerthesaurus.org/{}/antonyms", "Antonyms for word")
 
 commands.add("wk", "http://en.wikipedia.org/wiki/Special:Search?fulltext=Search&search={}")
 commands.add("wpg wkg wikigoogle", "http://www.google.com/custom?domains=en.wikipedia.org&sitesearch=en.wikipedia.org&q={}")
