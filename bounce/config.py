@@ -223,3 +223,50 @@ commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information ab
 # 5-15-2017
 commands.add('wb way', 'https://web.archive.org/web/*/{}', 'Wayback machine of Internet archive, pass in full urls')
 
+
+# 9-29-2017
+# https://news.ycombinator.com/item?id=15346541
+def punc_callback(q):
+    url = "http://www.thepunctuationguide.com/"
+    d = {
+        ".": "http://www.thepunctuationguide.com/period.html",
+        "?": "http://www.thepunctuationguide.com/question-mark.html",
+        "!": "http://www.thepunctuationguide.com/exclamation-point.html",
+        ",": "http://www.thepunctuationguide.com/comma.html",
+
+        ";": "http://www.thepunctuationguide.com/semicolon.html",
+        ":": "http://www.thepunctuationguide.com/colon.html",
+
+        "-": "http://www.thepunctuationguide.com/hyphen.html",
+        "--": "http://www.thepunctuationguide.com/en-dash.html",
+        "---": "http://www.thepunctuationguide.com/em-dash.html",
+
+        "(": "http://www.thepunctuationguide.com/parentheses.html",
+        ")": "http://www.thepunctuationguide.com/parentheses.html",
+
+        "'": "http://www.thepunctuationguide.com/apostrophe.html",
+        "\"": "http://www.thepunctuationguide.com/quotation-marks.html",
+
+        "/": "http://www.thepunctuationguide.com/slash.html",
+
+        "<": "http://www.thepunctuationguide.com/angle-brackets.html",
+        ">": "http://www.thepunctuationguide.com/angle-brackets.html",
+
+        "{": "http://www.thepunctuationguide.com/braces.html",
+        "}": "http://www.thepunctuationguide.com/braces.html",
+
+        "...": "http://www.thepunctuationguide.com/ellipses.html",
+
+        "[": "http://www.thepunctuationguide.com/brackets.html",
+        "]": "http://www.thepunctuationguide.com/brackets.html",
+
+    }
+
+    if q in d:
+        url = d[q]
+    return url
+commands.add(
+    'punc p pu',
+    punc_callback,
+    'Punctuation and style guide'
+)
