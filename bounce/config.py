@@ -18,7 +18,7 @@ commands.add("wd wikidict dw", "https://en.wiktionary.org/wiki/{}") # dictionary
 # 11-13-09
 commands.add("d dict dic nw ninja", "http://ninjawords.com/?q={}", "definition for word")
 # 09-26-2017
-commands.add("ds sy syn", "https://www.powerthesaurus.org/{}/synonyms", "Synonyms for word")
+commands.add("s ds sy syn", "https://www.powerthesaurus.org/{}/synonyms", "Synonyms for word")
 commands.add("da an ant", "https://www.powerthesaurus.org/{}/antonyms", "Antonyms for word")
 
 commands.add("wk", "http://en.wikipedia.org/wiki/Special:Search?fulltext=Search&search={}")
@@ -165,6 +165,11 @@ commands.add("ot", lambda q: lds_callback("ot", q))
 commands.add("nt", lambda q: lds_callback("nt", q))
 commands.add("bofm bm bom", lambda q: lds_callback("bofm", q))
 commands.add("pgp pearl pg pofpg pgop", lambda q: lds_callback("pgp", q))
+# 10-15-2017
+def jst_callback(q):
+    url = "http://www.centerplace.org/hs/iv/"
+    return url
+commands.add("jst", jst_callback, "The Joseph Smith Translation of the Bible")
 
 # 2-1-2012
 commands.add('sec 10k 10q s1', 'http://www.sec.gov/cgi-bin/browse-edgar?company={}&owner=exclude&Find=Find+Companies&action=getcompany')
