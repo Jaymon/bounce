@@ -172,7 +172,13 @@ def jst_callback(q):
 commands.add("jst", jst_callback, "The Joseph Smith Translation of the Bible")
 
 # 2-1-2012
-commands.add('sec 10k 10q s1', 'http://www.sec.gov/cgi-bin/browse-edgar?company={}&owner=exclude&Find=Find+Companies&action=getcompany')
+#commands.add('sec 10k 10q s1', 'http://www.sec.gov/cgi-bin/browse-edgar?company={}&owner=exclude&Find=Find+Companies&action=getcompany')
+commands.add(
+    'sec 10k 10q s1',
+    'https://www.sec.gov/cgi-bin/browse-edgar?CIK={}&owner=exclude&action=getcompany',
+    "Search SEC for company stock symbol"
+)
+
 # 1-30-13
 commands.add('mf msf msnm', 'http://investing.money.msn.com/investments/institutional-ownership?symbol={}')
 # 5-18-12
@@ -275,3 +281,7 @@ commands.add(
     punc_callback,
     'Punctuation and style guide'
 )
+
+# 10-15-2017
+commands.add('ip myip', 'https://www.where-am-i.co/my-ip-location', 'My IP Address and current location')
+
