@@ -24,8 +24,8 @@ commands.add("da an ant", "https://www.powerthesaurus.org/{}/antonyms", "Antonym
 commands.add("wk", "http://en.wikipedia.org/wiki/Special:Search?fulltext=Search&search={}")
 commands.add("wpg wkg wikigoogle", "http://www.google.com/custom?domains=en.wikipedia.org&sitesearch=en.wikipedia.org&q={}")
 commands.add("tv", "http://www.tv.com/search.php?type=11&stype=all&tag=search%3Bbutton&qs={}")
-commands.add("y yhoo", "http://search.yahoo.com/bin/search?p={}")
-commands.add("am amazon amaz a", "http://www.amazon.com/s/ref=nb_ss_gw/102-5754341-9464967?url=search-alias%3Daps&Go=Go&field-keywords={}")
+commands.add("yhoo", "http://search.yahoo.com/bin/search?p={}")
+commands.add("a am amazon amaz", "http://www.amazon.com/s/ref=nb_ss_gw/102-5754341-9464967?url=search-alias%3Daps&Go=Go&field-keywords={}")
 commands.add("epg ep epguides eg", "http://www.google.com/search?hl=en&q=allintitle%3A&q=site%3Aepguides.com&btnG=Search&q={}")
 commands.add("yt", "http://www.youtube.com/results?search=Search&search_query={}")
 
@@ -44,7 +44,7 @@ commands.add("bmn bug bugmenot", "http://www.bugmenot.com/view/{}")
 commands.add("wks wikiseek", "http://www.wikiseek.com/results.php?q={}")
 commands.add("gd", "http://www.godaddy.com/gdshop/registrar/search.asp?isc=ffsearch&checkavail=1&domaintocheck={}")
 commands.add("ws websnif websniff", "http://web-sniffer.net/?submit=Submit&http=1.1&gzip=yes&type=GET&url={}")
-commands.add("eb", "http://www.ebay.com/sch/i.html?_nkw={}")
+commands.add("e eb ebay", "http://www.ebay.com/sch/i.html?_nkw={}")
 # added 1-6-08...
 def php_callback(q):
     # allows watching youtube nsfw vidoes without logging in
@@ -58,13 +58,13 @@ commands.add("php", php_callback)
 commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
 
 # 5-19-2016
-def py_callback(q, version="2"):
+def py_callback(q, version="3"):
     d = {
         "set": "https://docs.python.org/{}/library/stdtypes.html#set",
-        "file": "https://docs.python.org/2/tutorial/inputoutput.html#methods-of-file-objects",
+        "file": "https://docs.python.org/{}/tutorial/inputoutput.html#methods-of-file-objects",
 
-        #"list": "https://docs.python.org/{}/library/functions.html#list",
-        "list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
+        "list": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
+        #"list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
 
         "tuple": "https://docs.python.org/{}/library/functions.html#tuple",
         "dict": "https://docs.python.org/{}/library/stdtypes.html#dict",
@@ -88,11 +88,13 @@ def py_callback(q, version="2"):
         "err": "https://docs.python.org/{}/library/exceptions.html",
         "errors": "https://docs.python.org/{}/library/exceptions.html",
 
-        "strings": "https://docs.python.org/2/library/stdtypes.html#string-methods",
-        "string": "https://docs.python.org/2/library/stdtypes.html#string-methods",
-        "str": "https://docs.python.org/2/library/stdtypes.html#string-methods",
+        "strings": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
+        "string": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
+        "str": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
 
-        "code": "https://hg.python.org/cpython/file/2.7/Lib",
+        "code": "https://github.com/python/cpython/tree/master/Lib",
+        "code3": "https://github.com/python/cpython/tree/master/Lib",
+        "code2": "https://github.com/python/cpython/tree/2.7/Lib",
 
     }
     q = q.lower()
@@ -106,9 +108,13 @@ def py_callback(q, version="2"):
 # added 8-16-08
 commands.add("py", py_callback)
 # 5-19-2016
-def py3_callback(q, version="3.5"):
+def py3_callback(q, version="3"):
     return py_callback(q, version)
 commands.add("py3", py3_callback)
+# 1-2-2018
+def py2_callback(q, version="2"):
+    return py_callback(q, version)
+commands.add("py2", py2_callback)
 
 
 # added 10-28-8...
@@ -284,4 +290,12 @@ commands.add(
 
 # 10-15-2017
 commands.add('ip myip', 'https://www.where-am-i.co/my-ip-location', 'My IP Address and current location')
+
+# 11-7-2017
+commands.add('dns', 'https://www.whatsmydns.net/?utm_source=whatsmydns.com&utm_medium=redirect#A/{}', 'DNS check for domain (so pass in something like "example.com"')
+
+# 1-2-2018
+commands.add('y yelp', 'https://www.yelp.com/search?find_desc=burgers&ns=1', 'Search Yelp listings')
+commands.add('ig insta', 'https://www.instagram.com/{}/', 'Redirect to instangram username')
+commands.add('gh git code', 'https://github.com/search?q={}&type=', 'Search Github repos')
 
