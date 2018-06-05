@@ -299,3 +299,6 @@ commands.add('y yelp', 'https://www.yelp.com/search?find_desc=burgers&ns=1', 'Se
 commands.add('ig insta', 'https://www.instagram.com/{}/', 'Redirect to instangram username')
 commands.add('gh git code', 'https://github.com/search?q={}&type=', 'Search Github repos')
 
+# 6-5-2018
+commands.add('mojo', 'http://www.boxofficemojo.com/search/?q={}', 'Search for movies on Box Office Mojo')
+
