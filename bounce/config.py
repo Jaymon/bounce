@@ -62,6 +62,8 @@ def py_callback(q, version="3"):
     d = {
         "set": "https://docs.python.org/{}/library/stdtypes.html#set",
         "file": "https://docs.python.org/{}/tutorial/inputoutput.html#methods-of-file-objects",
+        "open": "https://docs.python.org/{}/library/functions.html#open",
+        "mode": "https://docs.python.org/{}/library/functions.html#open",
 
         "list": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
         #"list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
