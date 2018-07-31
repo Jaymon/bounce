@@ -66,10 +66,15 @@ def py_callback(q, version="3"):
         "mode": "https://docs.python.org/{}/library/functions.html#open",
 
         "list": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
+        "lists": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
+        "[]": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
         #"list": "http://infohost.nmt.edu/tcc/help/pubs/python/web/list-methods.html",
 
         "tuple": "https://docs.python.org/{}/library/functions.html#tuple",
+        "tuples": "https://docs.python.org/{}/library/functions.html#tuple",
         "dict": "https://docs.python.org/{}/library/stdtypes.html#dict",
+        "dicts": "https://docs.python.org/{}/library/stdtypes.html#dict",
+        "{}": "https://docs.python.org/{}/library/stdtypes.html#dict",
         "collections": "https://docs.python.org/{}/library/collections.html#module-collections",
         "format": "https://docs.python.org/{}/library/string.html#formatspec",
 
@@ -81,6 +86,7 @@ def py_callback(q, version="3"):
 
         "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
         "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
+        "asserts": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
 
         "exceptions": "https://docs.python.org/{}/library/exceptions.html",
         "exception": "https://docs.python.org/{}/library/exceptions.html",
@@ -96,7 +102,9 @@ def py_callback(q, version="3"):
 
         "code": "https://github.com/python/cpython/tree/master/Lib",
         "code3": "https://github.com/python/cpython/tree/master/Lib",
+        "3": "https://github.com/python/cpython/tree/master/Lib",
         "code2": "https://github.com/python/cpython/tree/2.7/Lib",
+        "2": "https://github.com/python/cpython/tree/2.7/Lib",
 
     }
     q = q.lower()
