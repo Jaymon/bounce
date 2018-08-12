@@ -310,5 +310,5 @@ commands.add('ig insta', 'https://www.instagram.com/{}/', 'Redirect to instangra
 commands.add('gh git code', 'https://github.com/search?q={}&type=', 'Search Github repos')
 
 # 6-5-2018
-commands.add('mojo', 'http://www.boxofficemojo.com/search/?q={}', 'Search for movies on Box Office Mojo')
+commands.add('mojo', 'https://www.boxofficemojo.com/search/?q={}', 'Search for movies on Box Office Mojo')
 
