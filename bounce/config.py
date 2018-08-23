@@ -99,6 +99,8 @@ def py_callback(q, version="3"):
         "strings": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "string": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
+        "byte": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
+        "bytes": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
 
         "code": "https://github.com/python/cpython/tree/master/Lib",
         "code3": "https://github.com/python/cpython/tree/master/Lib",
