@@ -102,6 +102,8 @@ def py_callback(q, version="3"):
         "byte": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
         "bytes": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
 
+        "pdb": "https://docs.python.org/{}/library/pdb.html#pdbcommand-commands",
+
         "code": "https://github.com/python/cpython/tree/master/Lib",
         "code3": "https://github.com/python/cpython/tree/master/Lib",
         "3": "https://github.com/python/cpython/tree/master/Lib",
@@ -110,6 +112,8 @@ def py_callback(q, version="3"):
 
     }
     q = q.lower()
+    if not q:
+        q = "code{}".format(version)
 
     if q in d:
         url = d[q].format(version)
