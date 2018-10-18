@@ -313,7 +313,7 @@ commands.add('dns', 'https://www.whatsmydns.net/?utm_source=whatsmydns.com&utm_m
 # 1-2-2018
 commands.add('y yelp', 'https://www.yelp.com/search?find_desc=burgers&ns=1', 'Search Yelp listings')
 commands.add('ig insta', 'https://www.instagram.com/{}/', 'Redirect to instangram username')
-commands.add('gh git code', 'https://github.com/search?q={}&type=', 'Search Github repos')
+commands.add('gh code', 'https://github.com/search?q={}&type=', 'Search Github repos')
 
 # 6-5-2018
 commands.add('mojo', 'https://www.boxofficemojo.com/search/?q={}', 'Search for movies on Box Office Mojo')
