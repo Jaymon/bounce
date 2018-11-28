@@ -235,10 +235,10 @@ commands.add(
     exsh_callback,
     'explainshell.com - write down a command-line to see the help text that matches each argument'
 )
-# 1-21-2014
+# 1-21-2014 (updated 11-28-2018 to use https://www.crunchbase.com/opensearch.xml?version=2)
 commands.add(
   'cb',
-  'https://www.crunchbase.com/app/search?q={}',
+  'https://www.crunchbase.com/textsearch?q={}',
   'Crunchbase company search'
 )
 
