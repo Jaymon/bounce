@@ -2,19 +2,35 @@
 from __future__ import unicode_literals, division, print_function, absolute_import
 import re
 import inspect
+import logging
 
-try:
-    import urlparse
-except ImportError:
-    import urllib.parse as urlparse
-
-try:
-    from urllib import quote_plus, unquote_plus
-except ImportError:
-    from urllib.parse import quote_plus, unquote_plus
+from .compat import *
+from .compat import String as BaseString
 
 
-class Url(str):
+logger = logging.getLogger(__name__)
+
+
+class String(BaseString):
+    """Small wrapper around string/unicode that guarantees output will be a real
+    string ("" in py3 and u"" in py2) and won't fail with a UnicodeException"""
+    def __new__(cls, arg):
+        '''
+        make sure arg is a unicode string
+        arg -- mixed -- arg can be anything
+        return -- unicode -- a u'' string will always be returned
+        '''
+        if isinstance(arg, Bytes):
+            arg = arg.decode("UTF-8")
+
+        else:
+            if not isinstance(arg, BaseString):
+                arg = BaseString(arg)
+
+        return super(String, cls).__new__(cls, arg)
+
+
+class Url(String):
     def __new__(cls, val):
         instance = super(Url, cls).__new__(cls, val)
 
@@ -47,7 +63,7 @@ class Url(str):
         return instance
 
 
-class Q(str):
+class Q(String):
     def __new__(cls, val):
         instance = super(Q, cls).__new__(cls, val)
         return instance
@@ -55,8 +71,8 @@ class Q(str):
     def unquote(self):
         return unquote_plus(self)
 
-    def quote(self):
-        return quote_plus(self)
+    def quote(self, plus=True):
+        return quote_plus(self) if plus else quote(self)
 
     def url(self):
         return Url(self)
@@ -83,7 +99,7 @@ class Commands(object):
     def is_url(self, val):
         return Q(val).is_url()
 
-    def add(self, commands, val, note="", default=False):
+    def add(self, commands, val, note="", default=False, plus=True):
         cmds = re.split("\s+", commands)
         if default:
             self.default_cmd = cmds[0]
@@ -91,7 +107,7 @@ class Commands(object):
         for cmd in cmds:
             cmd = cmd.lower()
             if cmd in self.commands:
-                raise ValueError("{} already assigned".format(cmd))
+                logger.warning("{} already assigned".format(cmd))
 
             if isinstance(val, basestring):
                 self.commands[cmd] = {
@@ -104,6 +120,9 @@ class Commands(object):
                     "callback": val,
                     "note": note
                 }
+
+            self.commands[cmd]["plus"] = plus
+
 
     def find(self, q):
         if self.is_url(q): 
@@ -123,7 +142,7 @@ class Commands(object):
 
         else:
             # http://stackoverflow.com/a/9345102/5006
-            url = self.commands[cmd]["url"].format(question.quote())
+            url = self.commands[cmd]["url"].format(question.quote(self.commands[cmd]["plus"]))
 
         return url
 

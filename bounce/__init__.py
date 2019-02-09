@@ -1,13 +1,19 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals, division, print_function, absolute_import
 import os
 import logging
 
+from .compat import *
 from .core import commands
 from . import config
-from server import app as server
+from .server import app as server
 
 
-__version__ = "0.1.9"
+__version__ = "0.2.0"
+
+
 logger = logging.getLogger(__name__)
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 def import_configs(name='BOUNCE_CONFIG'):

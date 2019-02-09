@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals, division, print_function, absolute_import
 import re
-import urllib
 
 from flask import url_for
+from .compat import *
 
 from .core import commands
 
@@ -228,7 +230,7 @@ def exsh_callback(q):
     args = ""
     if len(bits) > 1:
         args = bits[1]
-    url = 'http://explainshell.com/explain/{}?args={}'.format(cmd, urllib.quote_plus(args))
+    url = 'http://explainshell.com/explain/{}?args={}'.format(cmd, quote_plus(args))
     return url
 commands.add(
     'explain exsh esh explainsh',

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals, division, print_function, absolute_import
 import sys
 import argparse
 import subprocess
@@ -22,7 +24,7 @@ def console():
 
     q = " ".join(args.qs)
     url = commands.find(q)
-    print url
+    print(url)
     if not args.print_only:
         subprocess.call(["open", url])
 
