@@ -63,7 +63,7 @@ value can also be a callback:
 ```python
 def callback(q):
     # manipulat q in some way and then return where you would like to go
-    return 'http://some.url.that.needed.manipulated.q.com={}'.format(q)
+    return 'http://some.url.that.needed.manipulation.q.com={}'.format(q)
 
 commands.add("foo bar", callback)
 ```

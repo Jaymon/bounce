@@ -5,6 +5,7 @@ import inspect
 import logging
 
 from .compat import *
+from . import environ
 from .compat import String as BaseString
 
 
@@ -21,7 +22,7 @@ class String(BaseString):
         return -- unicode -- a u'' string will always be returned
         '''
         if isinstance(arg, Bytes):
-            arg = arg.decode("UTF-8")
+            arg = arg.decode(environ.ENCODING)
 
         else:
             if not isinstance(arg, BaseString):
@@ -72,7 +73,9 @@ class Q(String):
         return unquote_plus(self)
 
     def quote(self, plus=True):
-        return quote_plus(self) if plus else quote(self)
+        bs = self.encode(environ.ENCODING)
+        qs = quote_plus(bs) if plus else quote(bs)
+        return qs.decode(environ.ENCODING)
 
     def url(self):
         return Url(self)
@@ -125,25 +128,35 @@ class Commands(object):
 
 
     def find(self, q):
+        logger.debug("Searching for q: {}".format(q))
+
         if self.is_url(q): 
+            logger.debug("q is a url, redirecting")
             return q
 
         bits = re.split("\s+", q, 1)
         cmd = bits[0].lower()
         if cmd in self.commands:
+            logger.debug("Command {} was found".format(cmd))
             question = Q(bits[1] if len(bits) > 1 else "")
 
         else:
+            logger.debug("Command {} was NOT found, using default command: {}".format(
+                cmd,
+                self.default_cmd
+            ))
             question = Q(q)
             cmd = self.default_cmd
 
         if "callback" in self.commands[cmd]:
-            url = self.commands[cmd]["callback"](question)
+            logger.debug("Command {} is a callback".format(cmd))
+            url = BaseString(self.commands[cmd]["callback"](question))
 
         else:
             # http://stackoverflow.com/a/9345102/5006
-            url = self.commands[cmd]["url"].format(question.quote(self.commands[cmd]["plus"]))
+            url = BaseString(self.commands[cmd]["url"]).format(question.quote(self.commands[cmd]["plus"]))
 
+        logger.debug("Found {}".format(url))
         return url
 
     def __iter__(self):

@@ -10,6 +10,9 @@ from bounce.core import Q
 from bounce import commands
 
 
+testdata.basic_logging()
+
+
 class Server(WSGIServer):
     def __new__(cls, hostname="", port=None):
         instance = super(Server, cls).__new__(
@@ -38,6 +41,15 @@ class CommandsTest(TestCase):
         url = commands.find("{} foo bar che".format(cmd))
         self.assertTrue("+" in url)
         self.assertFalse("%20" in url)
+
+    def test_concat(self):
+        cmd = testdata.get_ascii()
+        commands.add(cmd, b"{}")
+        # no exception being raised is a success
+        url = commands.find("{} {}".format(cmd, testdata.get_unicode_words()))
+
+        #url = commands.find("{} \U0001F646".format(cmd))
+        #pout.v(url)
 
 
 class RequestTest(TestCase):
