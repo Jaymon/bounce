@@ -51,6 +51,22 @@ class CommandsTest(TestCase):
         #url = commands.find("{} \U0001F646".format(cmd))
         #pout.v(url)
 
+    def test_py(self):
+        url = commands.find("py max")
+        self.assertTrue("/functions.html" in url)
+        url = commands.find("py RuntimeError")
+        self.assertTrue("/exceptions.html" in url)
+
+    def test_chef(self):
+        url = commands.find("chef execute")
+        self.assertTrue("#execute-resource" in url)
+
+        url = commands.find("chef")
+        self.assertTrue("resource_reference.html" in url)
+
+        url = commands.find("chef common")
+        self.assertTrue("resource_common.html" in url)
+
 
 class RequestTest(TestCase):
     def test_unicode(self):

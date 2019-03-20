@@ -17,6 +17,7 @@ if is_py2:
     import urlparse
     from urllib import quote_plus, unquote_plus
     from urllib import quote
+    import __builtin__ as builtins
 
 
 elif is_py3:
@@ -28,6 +29,7 @@ elif is_py3:
     import urllib.parse as urlparse
     from urllib.parse import quote_plus, unquote_plus
     from urllib.parse import quote
+    import builtins
 
 
 String = unicode if is_py2 else str

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, division, print_function, absolute_import
 import re
+import inspect
 
 from flask import url_for
 from .compat import *
@@ -87,6 +88,8 @@ def py_callback(q, version="3"):
         "builtin": "https://docs.python.org/{}/library/functions.html",
 
         "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
+        "test": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
+        "testing": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
         "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
         "asserts": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
 
@@ -119,8 +122,22 @@ def py_callback(q, version="3"):
 
     if q in d:
         url = d[q].format(version)
+
     else:
-        url = "https://docs.python.org/{}/library/{}.html".format(version, q)
+
+        bd = {}
+        for k, v in inspect.getmembers(builtins):
+            bd[k.lower()] = v
+
+        if q in bd:
+            v = bd[q]
+            if q.lower().endswith("error"):
+                url = "{}#{}".format(d["error"], q).format(version)
+            else:
+                url = "{}#{}".format(d["func"], q).format(version)
+
+        else:
+            url = "https://docs.python.org/{}/library/{}.html".format(version, q)
 
     return url
 # added 8-16-08
@@ -135,7 +152,27 @@ def py2_callback(q, version="2"):
 commands.add("py2", py2_callback)
 
 
-# added 10-28-8...
+# 3-19-2019
+def chef_callback(q):
+    if q:
+        q = q.lower()
+        if q == "custom":
+            url = "https://docs.chef.io/custom_resources.html"
+
+        elif q in set(["common", "prop", "props", "properties"]):
+            url = "https://docs.chef.io/resource_common.html"
+
+        else:
+            url = "https://docs.chef.io/resource_reference.html#{}-resource".format(q.replace(" ", "-"))
+
+    else:
+        url = "https://docs.chef.io/resource_reference.html"
+
+    return url
+commands.add("chef", chef_callback, "Chef docs")
+
+
+# added 10-28-2008...
 commands.add("mtv", "http://www.mtvmusic.com/search/?term={}")
 commands.add("h", "http://www.hulu.com/videos/search?query={}")
 commands.add("gf", "http://finance.google.com/finance?q={}")
