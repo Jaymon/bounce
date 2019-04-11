@@ -81,6 +81,12 @@ def py_callback(q, version="3"):
         "collections": "https://docs.python.org/{}/library/collections.html#module-collections",
         "format": "https://docs.python.org/{}/library/string.html#formatspec",
 
+        "logformat": "https://docs.python.org/3/library/logging.html#logrecord-attributes",
+        "logform": "https://docs.python.org/3/library/logging.html#logrecord-attributes",
+        "log": "https://docs.python.org/3/library/logging.html#logrecord-attributes",
+        "logging": "https://docs.python.org/3/library/logging.html#logrecord-attributes",
+        "logrecord": "https://docs.python.org/3/library/logging.html#logrecord-attributes",
+
         "functions": "https://docs.python.org/{}/library/functions.html",
         "funcs": "https://docs.python.org/{}/library/functions.html",
         "func": "https://docs.python.org/{}/library/functions.html",
@@ -88,6 +94,8 @@ def py_callback(q, version="3"):
         "builtin": "https://docs.python.org/{}/library/functions.html",
 
         "date": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
+        "dateformat": "https://docs.python.org/{}/library/datetime.html#strftime-strptime-behavior",
+
         "test": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
         "testing": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
         "assert": "https://docs.python.org/{}/library/unittest.html#unittest.TestCase",
