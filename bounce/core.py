@@ -32,7 +32,8 @@ class String(BaseString):
 
 
 class Url(String):
-    def __new__(cls, val):
+    def __new__(cls, *paths, **query_kwargs):
+        val = cls.combine(*paths, **query_kwargs)
         instance = super(Url, cls).__new__(cls, val)
 
         parts = urlparse.urlparse(val)
@@ -62,6 +63,32 @@ class Url(String):
             instance.query_kwargs = query_kwargs
 
         return instance
+
+    @classmethod
+    def combine(cls, *paths, **query_kwargs):
+        """take the basic parts of the path and combine them
+
+        :param *paths: strings, these are the parts of a url to the left of the ?
+        :param **query_kwargs: dict, keys are variable names and values are those variable's values
+        :returns: string, a full combined url that contains all of paths and query_kwargs
+        """
+        path = "/".join(paths)
+        if query_kwargs:
+            query = urlencode(query_kwargs, doseq=True)
+
+            if path.endswith("?"):
+                ret = "{}{}".format(path, query)
+
+            elif "?" in path:
+                ret = "{}&{}".format(path, query)
+
+            else:
+                ret = "{}?{}".format(path, query)
+
+        else:
+            ret = path
+
+        return ret
 
 
 class Q(String):

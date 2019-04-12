@@ -6,7 +6,7 @@ from testdata import TestCase
 from testdata.server import WSGIServer
 
 from bounce.compat import *
-from bounce.core import Q
+from bounce.core import Q, Url
 from bounce import commands
 
 
@@ -67,12 +67,25 @@ class CommandsTest(TestCase):
         url = commands.find("chef common")
         self.assertTrue("resource_common.html" in url)
 
+    def test_videoeta(self):
+        url = commands.find("videoeta")
+        # no errors is good
+
+    def test_unquote(self):
+        v = commands.find("unquote %2A")
+        self.assertEqual("*", v)
+
 
 class RequestTest(TestCase):
     def test_unicode(self):
         s = Server()
         r = s.fetch("yt {}".format(testdata.get_unicode_words()))
         self.assertEqual(200, r.code)
+
+    def test_body(self):
+        s = Server()
+        r = s.fetch("unquote %2A")
+        pout.v(r)
 
 
 class QTest(TestCase):
@@ -88,4 +101,13 @@ class QTest(TestCase):
         s = "yt {}".format(testdata.get_unicode_words())
         q = Q(s)
         self.assertEqual(s, q)
+
+
+class UrlTest(TestCase):
+    def test_combine(self):
+        url = Url.combine("http://example.com", foo="bar", che="*")
+        self.assertEqual("http://example.com?foo=bar&che=%2A", url)
+
+        url = Url("http://foo.com?foo=bar", che="1/2/3")
+        self.assertEqual("http://foo.com?foo=bar&che=1%2F2%2F3", url)
 

@@ -19,23 +19,42 @@ def index():
         # and those urls can have ? and & we want to respect that without the person submitting
         # having to worry about encoding the url. So everything after the q is considered part of the
         # q regardless of it has & in it, this also means that we violate the http spec because
-        # query string parameters actual have order, shrug
+        # query string parameters actually have order, shrug
         m = re.search("q=(.*$)", request.environ.get("QUERY_STRING", ""))
         q = commands.unquote(m.group(1))
 
     url = commands.find(q)
+    v = commands.find(q)
+    if commands.is_url(v):
+        body = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+            '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(url),
+            '        <meta name="referrer" content="none">',
+            "    </head>",
+            "    <body></body>",
+            "</html>",
+        ]
+
+    else:
+        body = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+            "        <title>{}</title>".format(q),
+            "    </head>",
+            "    <body>",
+            v,
+            "    </body>",
+            "</html>",
+        ]
+
+
     logger.info("Redirecting to {}".format(url))
-    return "\n".join([
-        "<!DOCTYPE html>",
-        "<html>",
-        "    <head>",
-        '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-        '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(url),
-        '        <meta name="referrer" content="none">',
-        "    </head>",
-        "    <body></body>",
-        "</html>",
-    ])
+    return "\n".join(body)
 
 
 @app.route("/robots.txt")

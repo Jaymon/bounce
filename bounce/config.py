@@ -2,11 +2,13 @@
 from __future__ import unicode_literals, division, print_function, absolute_import
 import re
 import inspect
+import datetime
+import calendar
 
 from flask import url_for
 from .compat import *
 
-from .core import commands
+from .core import commands, Url
 
 
 commands.add("g google", "http://www.google.com/search?q={}", default=True) # google
@@ -364,4 +366,33 @@ commands.add('gh code', 'https://github.com/search?q={}&type=', 'Search Github r
 
 # 6-5-2018
 commands.add('mojo', 'https://www.boxofficemojo.com/search/?q={}', 'Search for movies on Box Office Mojo')
+
+# 4-12-2019
+def videoeta(q):
+    dt = datetime.datetime.utcnow()
+    month = dt.month
+    year = dt.year
+    first_day, last_day = calendar.monthrange(dt.year, dt.month)
+    first_day = max(1, first_day)
+
+    query_kwargs = {
+        "datetype": "videoreleases",
+        "start_date": "{:02}/{:02}/{}".format(month, first_day, year),
+        "end_date": "{:02}/{:02}/{}".format(month, last_day, year),
+        "keywords": "*",
+        "ord_by": "box_office",
+        "ord_sort": "desc",
+        "search_type": "daterange"
+    }
+    base_url = "https://videoeta.com/search"
+    return Url(base_url, **query_kwargs)
+commands.add("veta videoeta bluray movies releases videos vids dvd", videoeta, "Get the new video releases for the current month")
+
+
+# 4-12-2019
+def unquote(q):
+    return commands.unquote(q)
+commands.add("unquote urldecode", unquote, "url decode the input")
+
+
 
