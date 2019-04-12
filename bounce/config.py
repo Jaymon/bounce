@@ -372,8 +372,8 @@ def videoeta(q):
     dt = datetime.datetime.utcnow()
     month = dt.month
     year = dt.year
-    first_day, last_day = calendar.monthrange(dt.year, dt.month)
-    first_day = max(1, first_day)
+    first_day = 1
+    last_day = calendar.monthrange(dt.year, dt.month)[1]
 
     query_kwargs = {
         "datetype": "videoreleases",
