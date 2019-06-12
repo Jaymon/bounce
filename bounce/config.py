@@ -303,7 +303,7 @@ commands.add('ch chefdoc', 'https://docs.chef.io/resource.html#chef-resources', 
 commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
 
 # 5-15-2017
-commands.add('wb way', 'https://web.archive.org/web/*/{}', 'Wayback machine of Internet archive, pass in full urls')
+commands.add('wb way wayback', 'https://web.archive.org/web/*/{}', 'Wayback machine of Internet archive, pass in full urls')
 
 
 # 9-29-2017
@@ -393,6 +393,10 @@ commands.add("veta videoeta bluray movies releases videos vids dvd", videoeta, "
 def unquote(q):
     return commands.unquote(q)
 commands.add("unquote urldecode", unquote, "url decode the input")
+
+
+# 6-7-2019
+commands.add("ikea", 'https://www.ikea.com/us/en/search/?query={}', "Search IKEA")
 
 
 
