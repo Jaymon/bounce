@@ -399,4 +399,12 @@ commands.add("unquote urldecode", unquote, "url decode the input")
 commands.add("ikea", 'https://www.ikea.com/us/en/search/?query={}', "Search IKEA")
 
 
+# 6-20-2019
+def tweetthread(q):
+    url = q
+    m = re.search(r"\/(\d+)(?:\/|\?)?", q)
+    if m:
+        url = "https://threadreaderapp.com/thread/{}.html?refreshed=yes".format(m.group(1))
+    return url
+commands.add("thread storm tweetstorm tweetthread", tweetthread, "Convert a tweet storm into easy to read longform")
 
