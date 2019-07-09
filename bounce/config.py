@@ -408,3 +408,10 @@ def tweetthread(q):
     return url
 commands.add("thread storm tweetstorm tweetthread", tweetthread, "Convert a tweet storm into easy to read longform")
 
+
+# 7-9-2019
+def unsplash(q):
+    q = re.sub(r"\s+", "-", q)
+    return "https://unsplash.com/search/photos/{}".format(q)
+commands.add("unsplash blogpic", unsplash, "Freely useable images")
+
