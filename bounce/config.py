@@ -415,3 +415,8 @@ def unsplash(q):
     return "https://unsplash.com/search/photos/{}".format(q)
 commands.add("unsplash blogpic", unsplash, "Freely useable images")
 
+
+# 8-4-2019
+commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query={}", "Search Nintendo")
+
+
