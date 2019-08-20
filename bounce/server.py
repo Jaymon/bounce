@@ -23,7 +23,6 @@ def index():
         m = re.search("q=(.*$)", request.environ.get("QUERY_STRING", ""))
         q = commands.unquote(m.group(1))
 
-    url = commands.find(q)
     v = commands.find(q)
     if commands.is_url(v):
         body = [
@@ -31,12 +30,35 @@ def index():
             "<html>",
             "    <head>",
             '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-            '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(url),
+            '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(v),
             '        <meta name="referrer" content="none">',
             "    </head>",
             "    <body></body>",
             "</html>",
         ]
+
+        logger.info("Redirecting to {}".format(v))
+
+    elif isinstance(v, dict):
+        body = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "    <head>",
+            '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+            '        <meta name="referrer" content="none">',
+            "    </head>",
+            '    <body onload="setTimeout(function() { document.autoform.submit() }, 0)">',
+        ]
+
+        body.append(
+            '<form name="autoform" action="{}" method="{}">'.format(v["action"], v.get("method", "POST"))
+        )
+
+        for vk, vv in v.items():
+            body.append('    <input type="hidden" name="{}" value="{}" />'.format(vk, vv))
+
+        body.append('</form>')
+        body.extend(["</body>", "</html>",])
 
     else:
         body = [
@@ -52,8 +74,6 @@ def index():
             "</html>",
         ]
 
-
-    logger.info("Redirecting to {}".format(url))
     return "\n".join(body)
 
 

@@ -177,14 +177,16 @@ class Commands(object):
 
         if "callback" in self.commands[cmd]:
             logger.debug("Command {} is a callback".format(cmd))
-            url = BaseString(self.commands[cmd]["callback"](question))
+            ret = self.commands[cmd]["callback"](question)
+            if isinstance(ret, basestring):
+                ret = BaseString(ret)
 
         else:
             # http://stackoverflow.com/a/9345102/5006
-            url = BaseString(self.commands[cmd]["url"]).format(question.quote(self.commands[cmd]["plus"]))
+            ret = BaseString(self.commands[cmd]["url"]).format(question.quote(self.commands[cmd]["plus"]))
 
-        logger.debug("Found {}".format(url))
-        return url
+        logger.debug("Found {}".format(ret))
+        return ret
 
     def __iter__(self):
         d = {}

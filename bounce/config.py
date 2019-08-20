@@ -420,3 +420,17 @@ commands.add("unsplash blogpic", unsplash, "Freely useable images")
 commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query={}", "Search Nintendo")
 
 
+# 8-19-2019
+def howlong(q):
+    # curl -d "queryString=QUERY_STRING&page=1&t=games&sorthead=popular" "https://howlongtobeat.com/search_results.php"
+    d = {
+        "action": "https://howlongtobeat.com/search_results.php",
+        "queryString": q,
+        "page": 1,
+        "t": "games",
+        "sorthead": "popular"
+    }
+    return d
+commands.add("howlong game beat", howlong, "How long to beat the game")
+
+
