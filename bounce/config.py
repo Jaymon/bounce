@@ -417,7 +417,7 @@ commands.add("unsplash blogpic", unsplash, "Freely useable images")
 
 
 # 8-4-2019
-commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query={}", "Search Nintendo")
+commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query={}", "Search Nintendo", plus=False)
 
 
 # 8-19-2019
