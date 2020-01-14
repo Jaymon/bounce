@@ -162,7 +162,8 @@ def py2_callback(q, version="2"):
 commands.add("py2", py2_callback)
 
 
-# 3-19-2019
+# 7-21-2016
+# 3-19-2019 I fleshed chef search out more
 def chef_callback(q):
     if q:
         q = q.lower()
@@ -173,13 +174,14 @@ def chef_callback(q):
             url = "https://docs.chef.io/resource_common.html"
 
         else:
-            url = "https://docs.chef.io/resource_reference.html#{}-resource".format(q.replace(" ", "-"))
+            url = "https://docs.chef.io/resource_reference.html#{}-resource".format(q.replace(" ", "-").replace("_", "-"))
 
     else:
         url = "https://docs.chef.io/resource_reference.html"
 
     return url
-commands.add("chef", chef_callback, "Chef docs")
+commands.add("ch chefdoc", chef_callback, "Chef documentation")
+
 
 
 # added 10-28-2008...
@@ -295,9 +297,6 @@ commands.add(
 def list_callback(q):
     return url_for("ls", q=q) if q else url_for("ls")
 commands.add("list ls", list_callback, "list all the available commands")
-
-# 7-21-2016
-commands.add('ch chefdoc', 'https://docs.chef.io/resource.html#chef-resources', 'Chef documentation')
 
 # 8-19-2016
 commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
