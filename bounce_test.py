@@ -58,14 +58,21 @@ class CommandsTest(TestCase):
         self.assertTrue("/exceptions.html" in url)
 
     def test_chef(self):
-        url = commands.find("chef execute")
-        self.assertTrue("#execute-resource" in url)
+        url = commands.find("ch execute")
+        self.assertTrue(url.endswith("/execute/"))
 
-        url = commands.find("chef")
-        self.assertTrue("resource_reference.html" in url)
+        url = commands.find("ch")
+        self.assertTrue(url.endswith("/resources/"))
 
-        url = commands.find("chef common")
-        self.assertTrue("resource_common.html" in url)
+        url = commands.find("ch common")
+        self.assertTrue(url.endswith("#common-functionality"))
+
+    def test_ruby(self):
+        url = commands.find("rb string")
+        self.assertTrue(url.endswith("String.html"))
+
+        url = commands.find("rb {}")
+        self.assertTrue(url.endswith("Hash.html"))
 
     def test_videoeta(self):
         url = commands.find("videoeta")

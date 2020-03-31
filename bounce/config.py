@@ -62,6 +62,41 @@ def php_callback(q):
 commands.add("php", php_callback)
 commands.add("yf stock symbol", "http://finance.yahoo.com/q?s={}")
 
+
+# 9-30-10
+# 3-31-2020 adds callback and fleshes out this search
+def rb_callback(q):
+    # NOTE -- ruby urls are case-sensitive (let that sink in), I use title here
+    # but it would be better to do things like `String` instead of `string`
+
+    d = {
+        "str": "String",
+        "strings": "String",
+
+        "arr": "Array",
+        "list": "Array",
+        "[]": "Array",
+
+        "dict": "Hash",
+        "dicts": "Hash",
+        "dictionary": "Hash",
+        "{}": "Hash",
+    }
+
+    if q.lower() in d:
+        q = d[q.lower()]
+
+    if q:
+        url = "https://ruby-doc.org/core/{}.html".format(q.title())
+
+    else:
+        # This has a cool class/function filter at the bottom
+        url = "https://ruby-doc.org/core/"
+
+    return url
+commands.add("rb rubyc rbc", rb_callback)
+
+
 # 5-19-2016
 def py_callback(q, version="3"):
     d = {
@@ -164,6 +199,7 @@ commands.add("py2", py2_callback)
 
 # 7-21-2016
 # 3-19-2019 I fleshed chef search out more
+# 3-31-2020 Updates to latest chef links and fixes search
 def chef_callback(q):
     if q:
         q = q.lower()
@@ -171,17 +207,16 @@ def chef_callback(q):
             url = "https://docs.chef.io/custom_resources.html"
 
         elif q in set(["common", "prop", "props", "properties"]):
-            url = "https://docs.chef.io/resource_common.html"
+            url = "https://docs.chef.io/resources/#common-functionality"
 
         else:
-            url = "https://docs.chef.io/resource_reference.html#{}-resource".format(q.replace(" ", "-").replace("_", "-"))
+            url = "https://docs.chef.io/resources/{}/".format(q.replace(" ", "_").replace("-", "_"))
 
     else:
-        url = "https://docs.chef.io/resource_reference.html"
+        url = "https://docs.chef.io/resources/"
 
     return url
 commands.add("ch chefdoc", chef_callback, "Chef documentation")
-
 
 
 # added 10-28-2008...
@@ -207,8 +242,6 @@ commands.add("nfi neti", "http://instantwatcher.com/titles?q={}&search_episodes=
 commands.add("down", "http://downforeveryoneorjustme.com/{}")
 # 11-19-09
 commands.add("tviv", "http://tviv.org/w/index.php?search={}&title=Special%3ASearch")
-# 9-30-10
-commands.add("rubyc rbc", "http://www.ruby-doc.org/core/classes/{}.html")
 # 8-30-11...
 commands.add("camel", "http://camelcamelcamel.com/products?sq={}")
 # 1-14-12
