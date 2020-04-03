@@ -451,6 +451,8 @@ commands.add("unsplash blogpic", unsplash, "Freely useable images")
 # 8-4-2019
 commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query={}", "Search Nintendo", plus=False)
 
+# 4-3-2020
+commands.add("ps", "https://store.playstation.com/en-us/grid/search-game/1?query={}", "Search Playstation store", plus=False)
 
 # 8-19-2019
 def howlong(q):
