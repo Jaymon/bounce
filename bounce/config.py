@@ -329,7 +329,7 @@ commands.add(
 # 5-19-2016
 def list_callback(q):
     return url_for("ls", q=q) if q else url_for("ls")
-commands.add("list ls", list_callback, "list all the available commands")
+commands.add("bounce", list_callback, "list all the available commands")
 
 # 8-19-2016
 commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
