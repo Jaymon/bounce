@@ -147,7 +147,8 @@ def py_callback(q, version="3"):
         "errors": "https://docs.python.org/{}/library/exceptions.html",
 
         "strings": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
-        "string": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
+        # "string" makes it impossible to get the string module
+        #"string": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "byte": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
         "bytes": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
