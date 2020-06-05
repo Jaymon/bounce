@@ -101,7 +101,10 @@ commands.add("rb rubyc rbc", rb_callback)
 def py_callback(q, version="3"):
     d = {
         "set": "https://docs.python.org/{}/library/stdtypes.html#set",
-        "file": "https://docs.python.org/{}/tutorial/inputoutput.html#methods-of-file-objects",
+        "iobase": "https://docs.python.org/3/library/io.html#io.IOBase",
+        "open2": "https://docs.python.org/3/library/io.html#io.IOBase",
+        "file": "https://docs.python.org/3/library/io.html#io.IOBase",
+        "file2": "https://docs.python.org/{}/tutorial/inputoutput.html#methods-of-file-objects",
         "open": "https://docs.python.org/{}/library/functions.html#open",
         "mode": "https://docs.python.org/{}/library/functions.html#open",
 
@@ -147,8 +150,7 @@ def py_callback(q, version="3"):
         "errors": "https://docs.python.org/{}/library/exceptions.html",
 
         "strings": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
-        # "string" makes it impossible to get the string module
-        #"string": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
+        "string2": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "str": "https://docs.python.org/{}/library/stdtypes.html#string-methods",
         "byte": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
         "bytes": "https://docs.python.org/{}/library/stdtypes.html#bytes-methods",
