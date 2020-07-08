@@ -107,6 +107,9 @@ def py_callback(q, version="3"):
         "file2": "https://docs.python.org/{}/tutorial/inputoutput.html#methods-of-file-objects",
         "open": "https://docs.python.org/{}/library/functions.html#open",
         "mode": "https://docs.python.org/{}/library/functions.html#open",
+        "modes": "https://docs.python.org/{}/library/functions.html#open",
+        "filemode": "https://docs.python.org/{}/library/functions.html#open",
+        "filemodes": "https://docs.python.org/{}/library/functions.html#open",
 
         "list": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
         "lists": "https://docs.python.org/{}/tutorial/datastructures.html#more-on-lists",
