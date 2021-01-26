@@ -32,15 +32,24 @@ commands.add("tv", "http://www.tv.com/search.php?type=11&stype=all&tag=search%3B
 commands.add("yhoo", "http://search.yahoo.com/bin/search?p={}")
 commands.add("a am amazon amaz", "http://www.amazon.com/s/ref=nb_ss_gw/102-5754341-9464967?url=search-alias%3Daps&Go=Go&field-keywords={}")
 commands.add("epg ep epguides eg", "http://www.google.com/search?hl=en&q=allintitle%3A&q=site%3Aepguides.com&btnG=Search&q={}")
-commands.add("yt", "http://www.youtube.com/results?search=Search&search_query={}")
+#commands.add("yt", "http://www.youtube.com/results?search=Search&search_query={}")
+def yt_callback(q):
+    # updated to just go to homescreen on 1-21-2021
+    if q:
+        url = "http://www.youtube.com/results?search=Search&search_query={}"
+    else:
+        url = "http://www.youtube.com/"
+    return url
+commands.add("yt", yt_callback, "Search Youtube")
+#commands.add("yt", "http://www.youtube.com/results?search=Search&search_query={}")
 
-# 8-8-12
+# 8-8-12, updated to youtubensfw on 1-22-2021
 def ytnsfw_callback(q):
     # allows watching youtube nsfw vidoes without logging in
-    url = q
-    m = re.match("/v=([^&]+)/", q)
-    if m:
-        url = 'http://deturl.com/play.asp?v={}'.format(m.group(1))
+    url = re.sub(r".youtube.", ".youtubensfw.", q, count=1)
+#     m = re.match("/v=([^&]+)/", q)
+#     if m:
+#         url = 'http://deturl.com/play.asp?v={}'.format(m.group(1))
     return url
 commands.add("yti ty yta ytnsfw", ytnsfw_callback)
 
@@ -52,7 +61,6 @@ commands.add("ws websnif websniff", "http://web-sniffer.net/?submit=Submit&http=
 commands.add("e eb ebay", "http://www.ebay.com/sch/i.html?_nkw={}")
 # added 1-6-08...
 def php_callback(q):
-    # allows watching youtube nsfw vidoes without logging in
     if q:
         url = "http://us2.php.net/{}".format(q)
     else:
