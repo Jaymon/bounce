@@ -174,6 +174,9 @@ def py_callback(q, version="3"):
         "code2": "https://github.com/python/cpython/tree/2.7/Lib",
         "2": "https://github.com/python/cpython/tree/2.7/Lib",
 
+        "env": "https://docs.python.org/3/using/cmdline.html#environment-variables",
+        "environ": "https://github.com/python/cpython/tree/2.7/Lib",
+        "environment": "https://github.com/python/cpython/tree/2.7/Lib",
     }
     q = q.lower()
     if not q:
