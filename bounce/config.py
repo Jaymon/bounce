@@ -36,7 +36,7 @@ commands.add("epg ep epguides eg", "http://www.google.com/search?hl=en&q=allinti
 def yt_callback(q):
     # updated to just go to homescreen on 1-21-2021
     if q:
-        url = "http://www.youtube.com/results?search=Search&search_query={}"
+        url = "http://www.youtube.com/results?search=Search&search_query={}".format(q)
     else:
         url = "http://www.youtube.com/"
     return url
