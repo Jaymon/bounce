@@ -9,7 +9,7 @@ from . import config
 from .server import app as server
 
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 
 logger = logging.getLogger(__name__)

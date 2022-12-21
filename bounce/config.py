@@ -177,6 +177,17 @@ def py_callback(q, version="3"):
         "env": "https://docs.python.org/3/using/cmdline.html#environment-variables",
         "environ": "https://github.com/python/cpython/tree/2.7/Lib",
         "environment": "https://github.com/python/cpython/tree/2.7/Lib",
+
+        "context": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+        "with": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+        "__enter": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+        "__enter__": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+        "__exit": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+        "__exit__": "https://docs.python.org/3/reference/datamodel.html#context-managers",
+
+        "magic": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
+        "special": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
+        "__": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
     }
     q = q.lower()
     if not q:
