@@ -486,17 +486,7 @@ commands.add("ps", "https://store.playstation.com/en-us/grid/search-game/1?query
 # 5-7-2020
 commands.add("ps psdeals psd", "https://psprices.com/region-us/search/?q={}&dlc=show", "Search Playstation deals and price history")
 
-# 8-19-2019
-def howlong(q):
-    # curl -d "queryString=QUERY_STRING&page=1&t=games&sorthead=popular" "https://howlongtobeat.com/search_results.php"
-    d = {
-        "action": "https://howlongtobeat.com/search_results.php",
-        "queryString": q,
-        "page": 1,
-        "t": "games",
-        "sorthead": "popular"
-    }
-    return d
-commands.add("howlong game beat", howlong, "How long to beat the game")
+# 8-19-2019 (updated 12-30-2022 with new query syntax)
+commands.add("howlong game beat", https://howlongtobeat.com/?q={}, "How long to beat the game")
 
 
