@@ -188,6 +188,16 @@ def py_callback(q, version="3"):
         "magic": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
         "special": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
         "__": "https://docs.python.org/3/reference/datamodel.html#special-method-names",
+        "grammar": "https://docs.python.org/3/reference/compound_stmts.html",
+
+        # https://stackoverflow.com/a/14302007
+        # https://bugs.python.org/issue2613
+        # https://stackoverflow.com/a/14298976
+        "*": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions",
+        "star": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions",
+        "/": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions",
+        "slash": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions",
+        "signature": "https://docs.python.org/3/reference/compound_stmts.html#function-definitions",
     }
     q = q.lower()
     if not q:
