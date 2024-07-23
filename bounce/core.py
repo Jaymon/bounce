@@ -13,66 +13,6 @@ from datatypes import (
 logger = logging.getLogger(__name__)
 
 
-# class Url(String):
-#     def __new__(cls, *paths, **query_kwargs):
-#         val = cls.combine(*paths, **query_kwargs)
-#         instance = super(Url, cls).__new__(cls, val)
-# 
-#         parts = urlparse.urlparse(val)
-#         instance.scheme = parts.scheme
-#         instance.hostname = parts.hostname
-# 
-#         instance.path_args = []
-#         instance.path = parts.path
-#         if instance.path:
-#             instance.path_args = filter(None, parts.path.split("/"))
-# 
-#         instance.netloc = parts.netloc
-#         instance.port = parts.port
-#         instance.fragment = parts.fragment
-#         instance.username = parts.username
-#         instance.password = parts.password
-# 
-#         instance.query = parts.query
-#         instance.query_kwargs = {}
-#         if instance.query:
-#             query_kwargs = {}
-#             for k, kv in urlparse.parse_qs(parts.query, True, True).items():
-#                 if len(kv) > 1:
-#                     query_kwargs[k] = kv
-#                 else:
-#                     query_kwargs[k] = kv[0]
-#             instance.query_kwargs = query_kwargs
-# 
-#         return instance
-# 
-#     @classmethod
-#     def combine(cls, *paths, **query_kwargs):
-#         """take the basic parts of the path and combine them
-# 
-#         :param *paths: strings, these are the parts of a url to the left of the ?
-#         :param **query_kwargs: dict, keys are variable names and values are those variable's values
-#         :returns: string, a full combined url that contains all of paths and query_kwargs
-#         """
-#         path = "/".join(paths)
-#         if query_kwargs:
-#             query = urlencode(query_kwargs, doseq=True)
-# 
-#             if path.endswith("?"):
-#                 ret = "{}{}".format(path, query)
-# 
-#             elif "?" in path:
-#                 ret = "{}&{}".format(path, query)
-# 
-#             else:
-#                 ret = "{}?{}".format(path, query)
-# 
-#         else:
-#             ret = path
-# 
-#         return ret
-
-
 class Q(String):
     def unquote(self):
         return unquote_plus(self)
@@ -96,7 +36,7 @@ class Commands(object):
         self.default_cmd = ""
 
     def unquote(self, val):
-        # py3 http://stackoverflow.com/questions/11768070/transform-url-string-into-normal-string-in-python-20-to-space-etc#comment44058808_11768102
+        # py3 http://stackoverflow.com/questions/11768070/
         return Q(val).unquote()
 
     def quote(self, val):

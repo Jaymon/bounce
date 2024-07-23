@@ -3,10 +3,6 @@ import sys
 import argparse
 import subprocess
 
-
-#sys.path.insert(0, "")
-
-
 from bounce import commands, __version__, import_config
 
 
