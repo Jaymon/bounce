@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, division, print_function, absolute_import
 import re
 import inspect
 import datetime
 import calendar
-
-from flask import url_for
-from .compat import *
+import builtins
+from urllib.parse import quote_plus, unquote_plus
 
 from .core import commands, Url
 
@@ -366,8 +364,15 @@ commands.add(
 
 # 5-19-2016
 def list_callback(q):
-    return url_for("ls", q=q) if q else url_for("ls")
-commands.add("bounce", list_callback, "list all the available commands")
+    if q:
+        ret = Url(path="/list", query_kwargs={"q": q})
+
+    else:
+        ret = Url(path="/list")
+
+    return ret
+    #return url_for("ls", q=q) if q else url_for("ls")
+commands.add("bounce list ls", list_callback, "list all the available commands")
 
 # 8-19-2016
 commands.add('color', 'http://www.color-hex.com/color/{}', 'Color information about hex color')
@@ -455,8 +460,12 @@ def videoeta(q):
         "search_type": "daterange"
     }
     base_url = "https://videoeta.com/search"
-    return Url(base_url, **query_kwargs)
-commands.add("veta videoeta bluray movies releases videos vids dvd", videoeta, "Get the new video releases for the current month")
+    return Url(base_url, query_kwargs=query_kwargs)
+commands.add(
+    "veta videoeta bluray movies releases videos vids dvd",
+    videoeta,
+    "Get the new video releases for the current month"
+)
 
 
 # 4-12-2019
@@ -492,11 +501,24 @@ commands.add("nin", "https://www.nintendo.com/search/#category=all&page=1&query=
 commands.add("nindeals nind", "https://www.dekudeals.com/search?q={}", "Search Nintendo deals and price history")
 
 # 4-3-2020
-commands.add("ps", "https://store.playstation.com/en-us/grid/search-game/1?query={}", "Search Playstation store", plus=False)
+commands.add(
+    "pss",
+    "https://store.playstation.com/en-us/grid/search-game/1?query={}",
+    "Search Playstation store",
+    plus=False
+)
 # 5-7-2020
-commands.add("ps psdeals psd", "https://psprices.com/region-us/search/?q={}&dlc=show", "Search Playstation deals and price history")
+commands.add(
+    "ps psdeals psd",
+    "https://psprices.com/region-us/search/?q={}&dlc=show",
+    "Search Playstation deals and price history"
+)
 
 # 8-19-2019 (updated 12-30-2022 with new query syntax)
-commands.add("howlong game beat", https://howlongtobeat.com/?q={}, "How long to beat the game")
+commands.add(
+    "howlong game beat",
+    "https://howlongtobeat.com/?q={}",
+    "How long to beat the game"
+)
 
 

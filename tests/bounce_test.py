@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, division, print_function, absolute_import
 
 import testdata
 from testdata import TestCase
-from testdata.server import WSGIServer
+from datatypes import (
+    WSGIServer,
+    ServerThread
+)
 
-from bounce.compat import *
 from bounce.core import Q, Url
 from bounce import commands
 
@@ -13,19 +14,24 @@ from bounce import commands
 testdata.basic_logging()
 
 
-class Server(WSGIServer):
-    def __new__(cls, hostname="", port=None):
-        instance = super(Server, cls).__new__(
-            cls,
-            hostname=hostname,
-            port=port,
-            wsgifile="bounce/bin/bouncefile.py"
-        )
-        return instance
+class Server(ServerThread):
+    def __new__(cls, **kwargs):
+        kwargs.setdefault("wsgifile", "bounce/bin/bounce-wsgi.py")
+        server = WSGIServer(**kwargs)
+        return super().__new__(cls, server, **kwargs)
 
     def fetch(self, q):
         with self:
             return testdata.fetch(self, query={"q": q})
+
+
+# class Server(WSGIServer):
+#     def __init__(self, *args, **kwargs):
+#         kwargs.setdefault("wsgifile", "bounce/bin/bounce-wsgi.py")
+# 
+#     def fetch(self, q):
+#         with self:
+#             return testdata.fetch(self, query={"q": q})
 
 
 class CommandsTest(TestCase):
@@ -41,15 +47,6 @@ class CommandsTest(TestCase):
         url = commands.find("{} foo bar che".format(cmd))
         self.assertTrue("+" in url)
         self.assertFalse("%20" in url)
-
-    def test_concat(self):
-        cmd = testdata.get_ascii()
-        commands.add(cmd, b"{}")
-        # no exception being raised is a success
-        url = commands.find("{} {}".format(cmd, testdata.get_unicode_words()))
-
-        #url = commands.find("{} \U0001F646".format(cmd))
-        #pout.v(url)
 
     def test_py(self):
         url = commands.find("py max")
@@ -82,6 +79,24 @@ class CommandsTest(TestCase):
         v = commands.find("unquote %2A")
         self.assertEqual("*", v)
 
+    def test_list(self):
+        v = commands.find("list foo bar")
+        self.assertTrue("foo+bar" in v)
+
+        v = commands.find("list")
+        self.assertTrue("/list" in v)
+
+    def test_syntax_errors(self):
+        for key, val in commands.commands.items():
+            q = f"{key} {testdata.get_words()}"
+            try:
+                commands.find(q)
+
+            except ValueError as e:
+                if "invalid literal for int() with base 10" in str(e):
+                    q = f"{key} {testdata.get_int(1, 999)}"
+                    commands.find(q)
+
 
 class RequestTest(TestCase):
     def test_unicode(self):
@@ -108,13 +123,4 @@ class QTest(TestCase):
         s = "yt {}".format(testdata.get_unicode_words())
         q = Q(s)
         self.assertEqual(s, q)
-
-
-class UrlTest(TestCase):
-    def test_combine(self):
-        url = Url.combine("http://example.com", foo="bar", che="*")
-        self.assertEqual("http://example.com?foo=bar&che=%2A", url)
-
-        url = Url("http://foo.com?foo=bar", che="1/2/3")
-        self.assertEqual("http://foo.com?foo=bar&che=1%2F2%2F3", url)
 

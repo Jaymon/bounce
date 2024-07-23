@@ -1,22 +1,41 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, division, print_function, absolute_import
 import sys
 import argparse
 import subprocess
 
 
-sys.path.insert(0, "")
+#sys.path.insert(0, "")
 
 
-from bounce import commands, server, __version__, import_config
+from bounce import commands, __version__, import_config
 
 
-def console():
+def application():
     parser = argparse.ArgumentParser(description='Bounce')
-    parser.add_argument('qs', metavar='Q', nargs='*', default=[], help='the search string')
-    parser.add_argument('--config', '-c', dest="config", default="", help='a custom configuration module')
-    parser.add_argument("-V", "--version", action='version', version="%(prog)s {}".format(__version__))
-    parser.add_argument("-p", "--print-only", dest="print_only", action="store_true", help='Just print url, do not redirect')
+    parser.add_argument(
+        'qs',
+        metavar='Q',
+        nargs='*',
+        default=[],
+        help='the search string'
+    )
+    parser.add_argument(
+        '--config', '-c',
+        dest="config",
+        default="",
+        help='a custom configuration module'
+    )
+    parser.add_argument(
+        "-V", "--version",
+        action='version',
+        version="%(prog)s {}".format(__version__)
+    )
+    parser.add_argument(
+        "-p", "--print-only",
+        dest="print_only",
+        action="store_true",
+        help='Just print url, do not redirect'
+    )
     args = parser.parse_args()
 
     if args.config:
@@ -30,5 +49,5 @@ def console():
 
 
 if __name__ == "__main__":
-    sys.exit(console())
+    sys.exit(application())
 
