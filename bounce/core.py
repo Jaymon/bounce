@@ -106,6 +106,7 @@ class Commands(object):
             )
 
         logger.debug("Found {}".format(ret))
+
         return ret
 
     def __iter__(self):
@@ -127,7 +128,4 @@ class Commands(object):
 
         for key, vals in d.items():
             yield " ".join(vals["cmds"]), key, vals["note"]
-
-
-commands = Commands()
 

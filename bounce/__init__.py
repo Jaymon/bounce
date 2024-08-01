@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
+import runpy
 
 from datatypes import Environ
 
-from .core import commands
+from .config import commands
 from . import config
 
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 
 logger = logging.getLogger(__name__)

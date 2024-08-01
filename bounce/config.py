@@ -6,8 +6,10 @@ import calendar
 import builtins
 from urllib.parse import quote_plus, unquote_plus
 
-from .core import commands, Url
+from .core import Commands, Url
 
+
+commands = Commands()
 
 commands.add("g google", "http://www.google.com/search?q={}", default=True) # google
 commands.add("gm googlemap", "http://maps.google.com/?q={}") # google maps

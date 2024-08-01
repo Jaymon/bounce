@@ -16,7 +16,7 @@ testdata.basic_logging()
 
 class Server(ServerThread):
     def __new__(cls, **kwargs):
-        kwargs.setdefault("wsgifile", "bounce/bin/bounce-wsgi.py")
+        kwargs.setdefault("wsgifile", "bounce/wsgi.py")
         server = WSGIServer(**kwargs)
         return super().__new__(cls, server, **kwargs)
 
@@ -98,18 +98,6 @@ class CommandsTest(TestCase):
                     commands.find(q)
 
 
-class RequestTest(TestCase):
-    def test_unicode(self):
-        s = Server()
-        r = s.fetch("yt {}".format(testdata.get_unicode_words()))
-        self.assertEqual(200, r.code)
-
-    def test_body(self):
-        s = Server()
-        r = s.fetch("unquote %2A")
-        pout.v(r)
-
-
 class QTest(TestCase):
     def test_url(self):
         url = testdata.get_url()
@@ -123,4 +111,57 @@ class QTest(TestCase):
         s = "yt {}".format(testdata.get_unicode_words())
         q = Q(s)
         self.assertEqual(s, q)
+
+
+class DefaultTest(TestCase):
+    def test_unicode(self):
+        s = Server()
+        r = s.fetch("yt {}".format(testdata.get_unicode_words()))
+        self.assertEqual(200, r.code)
+
+    def test_body(self):
+        s = Server()
+        r = s.fetch("unquote %2A")
+        self.assertTrue("*" in r.body)
+
+
+class FaviconTest(TestCase):
+    def test_404(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child("favicon.ico"))
+            self.assertEqual(404, r.code)
+
+
+class RobotsTest(TestCase):
+    def test_success(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child("robots.txt"))
+            self.assertEqual(200, r.code)
+            self.assertTrue(
+                r.headers.get("Content-Type").startswith("text/plain")
+            )
+
+
+class OpensearchTest(TestCase):
+    def test_success(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child("opensearch.xml"))
+            self.assertEqual(200, r.code)
+            self.assertTrue(
+                r.headers.get("Content-Type").startswith("text/xml")
+            )
+
+
+class ListTest(TestCase):
+    def test_success(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child("list"))
+            self.assertEqual(200, r.code)
+            self.assertTrue(
+                r.headers.get("Content-Type").startswith("text/html")
+            )
 

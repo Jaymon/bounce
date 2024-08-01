@@ -1,7 +1,7 @@
-
 # Bounce
 
 It's a keyword search engine, meaning you can configure it to redirect `yt` to Youtube, so a search like `yt weird al` would redirect right to Youtube's search.
+
 
 ## 1 minute getting started
 
@@ -11,7 +11,7 @@ It's a keyword search engine, meaning you can configure it to redirect `yt` to Y
 
 2. Start it:
 
-        $ bounce-server
+        $ bounce serve
 
 3. Query it:
 

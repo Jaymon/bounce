@@ -4,7 +4,8 @@ import runpy
 
 from endpoints import Controller, param
 
-from .core import commands, Q
+from .core import Q
+from .config import commands
 
 
 logger = logging.getLogger(__name__)
@@ -14,78 +15,95 @@ class Default(Controller):
     content_type = "text/html"
 
     @param("q", default="", type=Q, help="The query value")
-    async def ANY(self, q):
-#         if commands.is_url(q):
-#             # we pull out q this way because we are tricksy here, because q can
-#             # contain urls and those urls can have ? and & we want to respect
-#             # that without the person submitting having to worry about encoding
-#             # the url. So everything after the q is considered part of the q
-#             # regardless of it has & in it, this also means that we violate the
-#             # http spec because query string parameters actually have order,
-#             # shrug
-#             m = re.search("q=(.*$)", request.environ.get("QUERY_STRING", ""))
-#             q = commands.unquote(m.group(1))
+    async def ANY(self, q, **kwargs):
+        if q:
+            v = commands.find(q)
+            if commands.is_url(v):
+                body = [
+                    "<!DOCTYPE html>",
+                    "<html>",
+                    "    <head>",
+                    '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+                    '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(v),
+                    '        <meta name="referrer" content="none">',
+                    "    </head>",
+                    "    <body></body>",
+                    "</html>",
+                ]
 
-        v = commands.find(q)
-        if commands.is_url(v):
-            body = [
-                "<!DOCTYPE html>",
-                "<html>",
-                "    <head>",
-                '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-                '        <meta http-equiv="refresh" content="0;url=\'{}\'">'.format(v),
-                '        <meta name="referrer" content="none">',
-                "    </head>",
-                "    <body></body>",
-                "</html>",
-            ]
+                logger.info("Redirecting to {}".format(v))
 
-            logger.info("Redirecting to {}".format(v))
+            elif isinstance(v, dict):
+                body = [
+                    "<!DOCTYPE html>",
+                    "<html>",
+                    "    <head>",
+                    '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+                    '        <meta name="referrer" content="none">',
+                    "    </head>",
+                    '    <body onload="setTimeout(function() { document.autoform.submit() }, 0)">',
+                ]
 
-        elif isinstance(v, dict):
-            body = [
-                "<!DOCTYPE html>",
-                "<html>",
-                "    <head>",
-                '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-                '        <meta name="referrer" content="none">',
-                "    </head>",
-                '    <body onload="setTimeout(function() { document.autoform.submit() }, 0)">',
-            ]
-
-            body.append(
-                '<form name="autoform" action="{}" method="{}">'.format(
-                    v["action"],
-                    v.get("method", "POST")
-                )
-            )
-
-            for vk, vv in v.items():
                 body.append(
-                    '    <input type="hidden" name="{}" value="{}" />'.format(
-                        vk,
-                        vv
+                    '<form name="autoform" action="{}" method="{}">'.format(
+                        v["action"],
+                        v.get("method", "POST")
                     )
                 )
 
-            body.append('</form>')
-            body.extend(["</body>", "</html>",])
+                for vk, vv in v.items():
+                    body.append(
+                        '    <input type="hidden" name="{}" value="{}" />'.format(
+                            vk,
+                            vv
+                        )
+                    )
+
+                body.append('</form>')
+                body.extend(["</body>", "</html>",])
+
+            else:
+                body = [
+                    "<!DOCTYPE html>",
+                    "<html>",
+                    "    <head>",
+                    '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
+                    "        <title>{}</title>".format(q),
+                    "    </head>",
+                    "    <body>",
+                    v,
+                    "    </body>",
+                    "</html>",
+                ]
 
         else:
+            # if q is empty then give an input box to submit q
+
+            # https://www.w3schools.com/html/html_forms.asp
             body = [
                 "<!DOCTYPE html>",
                 "<html>",
                 "    <head>",
                 '        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />',
-                "        <title>{}</title>".format(q),
+                '        <meta name="referrer" content="none">',
                 "    </head>",
                 "    <body>",
-                v,
+                '<form action="/" method="GET">',
+                '    <input type="text" name="q" id="q">',
+                "</form>",
                 "    </body>",
-                "</html>",
             ]
 
         return "\n".join(body)
+
+
+class Favicon(Controller):
+    """Ignores browser's auto /favicon.ico requests"""
+    content_type = None
+    ext = "ico"
+
+    async def ANY(self):
+        self.response.code = 404
 
 
 class Robots(Controller):
@@ -106,7 +124,7 @@ class Opensearch(Controller):
     async def GET(self):
         host = self.request.url.host()
 
-        return ("\n".join([
+        return "\n".join([
             '<?xml version="1.0" encoding="UTF-8"?>',
             "",
             (
@@ -133,14 +151,14 @@ class Opensearch(Controller):
             "    <AdultContent>false</AdultContent>",
             "    <Language>en-us</Language>",
             "</OpenSearchDescription>",
-        ]), 200, headers)
+        ])
 
 
 class List(Controller):
     content_type = "text/html"
 
     @param("q", default="", type=lambda q: q.lower(), help="The query value")
-    async def GET(self):
+    async def GET(self, q):
         lines = []
         lines.append('<table style="width: 100%;" border="1">')
         lines.append('<tr>')
@@ -169,4 +187,15 @@ class List(Controller):
 
         lines.append('</table>')
         return "\n".join(lines)
+
+
+class Healthcheck(Controller):
+    """Here mainly for a docker healthcheck
+
+    https://docs.docker.com/reference/dockerfile/#healthcheck
+    """
+    content_type="text/plain"
+
+    async def GET(self):
+        return "HEALTHY"
 
