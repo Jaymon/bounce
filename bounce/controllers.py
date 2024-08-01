@@ -17,7 +17,13 @@ class Default(Controller):
     @param("q", default="", type=Q, help="The query value")
     async def ANY(self, q, **kwargs):
         if q:
-            v = commands.find(q)
+            v = commands.find(
+                q,
+                request=self.request,
+                response=self.response,
+                controller=self
+            )
+
             if commands.is_url(v):
                 body = [
                     "<!DOCTYPE html>",

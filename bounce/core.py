@@ -14,6 +14,14 @@ logger = logging.getLogger(__name__)
 
 
 class Q(String):
+    def __new__(cls, q, **kwargs):
+        instance = super().__new__(cls, q)
+
+        for k, v in kwargs.items():
+            setattr(instance, k, v)
+
+        return instance
+
     def unquote(self):
         return unquote_plus(self)
 
@@ -69,8 +77,7 @@ class Commands(object):
 
             self.commands[cmd]["plus"] = plus
 
-
-    def find(self, q):
+    def find(self, q, **kwargs):
         logger.debug("Searching for q: {}".format(q))
 
         if self.is_url(q): 
@@ -81,7 +88,7 @@ class Commands(object):
         cmd = bits[0].lower()
         if cmd in self.commands:
             logger.debug("Command {} was found".format(cmd))
-            question = Q(bits[1] if len(bits) > 1 else "")
+            question = Q(bits[1] if len(bits) > 1 else "", **kwargs)
 
         else:
             logger.debug(
@@ -90,7 +97,7 @@ class Commands(object):
                     self.default_cmd
                 )
             )
-            question = Q(q)
+            question = Q(q, **kwargs)
             cmd = self.default_cmd
 
         if "callback" in self.commands[cmd]:
