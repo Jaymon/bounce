@@ -169,8 +169,8 @@ class List(Controller):
         lines.append('<table style="width: 100%;" border="1">')
         lines.append('<tr>')
         lines.append('<th>Keywords</th>')
-        lines.append('<th>domain</th>')
-        lines.append('<th>note</th>')
+        lines.append('<th>Domain</th>')
+        lines.append('<th>Help</th>')
         lines.append('</tr>')
 
         # for display, sort the commands in alphabetical order

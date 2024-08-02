@@ -11,7 +11,7 @@ It's a keyword search engine, meaning you can configure it to redirect `yt` to Y
 
 2. Start it:
 
-        $ bounce serve
+        $ bounce serve --host "127.0.0.1:5000"
 
 3. Query it:
 
@@ -31,10 +31,10 @@ Bounce has a built-in [configuration file with generic mappings](https://github.
 export BOUNCE_CONFIG=/path/to/bounce_config.py
 ```
 
-The file must import `bounce.core.commands`:
+The file must import `bounce.config.commands`:
 
 ```python
-from bounce.core import commands
+from bounce.config import commands
 ```
 
 The `commands.add()` method takes a space separated list of commands and a value:
@@ -91,14 +91,12 @@ the command `ls` will list all the commands bounce supports
 To test locally from the repo:
 
     $ export BOUNCE_CONFIG=/path/to/bounce/config.py
-    $ python bounce/bin/bounce-server
+    $ python -m bounce serve --host "127.0.0.1:5000"
 
-That should produce output like this:
+That should produce output that ends with the bound hostname and port:
 
-     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-     * Restarting with stat
-     * Debugger is active!
-     * Debugger pin code: XXX-XXX-XXX
+    ...
+    Server is listening on 127.0.0.1:5000
 
 Which you can then use to test:
 
