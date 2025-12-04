@@ -345,7 +345,7 @@ commands.add('gif', 'http://www.google.com/search?q={}&source=lnms&tbm=isch&tbs=
 # 9-14-13
 # https://news.ycombinator.com/item?id=6296634
 def exsh_callback(q):
-    bits = re.split("\s+", q, 1)
+    bits = re.split(r"\s+", q, 1)
     cmd = bits[0]
     args = ""
     if len(bits) > 1:

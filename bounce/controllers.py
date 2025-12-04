@@ -1,8 +1,12 @@
 import re
 import logging
 import runpy
+from typing import Annotated
+from collections.abc import Iterable
+from string import Template
 
-from endpoints import Controller, param
+#from endpoints import Controller, param
+from endpoints import Controller
 
 from .core import Q
 from .config import commands
@@ -12,10 +16,14 @@ logger = logging.getLogger(__name__)
 
 
 class Default(Controller):
-    content_type = "text/html"
+    #content_type = "text/html"
 
-    @param("q", default="", type=Q, help="The query value")
-    async def ANY(self, q, **kwargs):
+    #@param("q", default="", type=Q, help="The query value")
+    async def ANY(self, q: Q|None = None, **kwargs) -> str:
+        """
+        :param q: The query value
+        :returns: html
+        """
         if q:
             v = commands.find(
                 q,
@@ -103,68 +111,134 @@ class Default(Controller):
         return "\n".join(body)
 
 
-class Favicon(Controller):
+class Favicon_ico(Controller):
     """Ignores browser's auto /favicon.ico requests"""
-    content_type = None
-    ext = "ico"
-
     async def ANY(self):
         self.response.code = 404
 
 
-class Robots(Controller):
-    content_type="text/plain"
-    ext = "txt"
+class Robots_txt(Controller):
+    #content_type="text/plain"
 
-    async def GET(self):
+    async def GET_txt(self) -> str:
         return "\n".join([
             "User-agent: *",
             "Disallow: /",
         ])
 
 
-class Opensearch(Controller):
-    content_type = "text/xml"
-    ext = "xml"
+class Opensearch_xml(Controller):
+    """Handle Opensearch xml file
 
-    async def GET(self):
-        host = self.request.url.host()
+    https://developer.mozilla.org/en-US/docs/Web/XML/Guides/OpenSearch
+    https://github.com/dewitt/opensearch
 
-        return "\n".join([
-            '<?xml version="1.0" encoding="UTF-8"?>',
-            "",
-            (
-                '<OpenSearchDescription'
-                ' xmlns="http://a9.com/-/spec/opensearch/1.1/"'
-                ' xmlns:moz="http://www.mozilla.org/2006/browser/search/">'
-            ),
-            "    <ShortName>bounce</ShortName>",
-            "    <Description>Bounce Search</Description>",
-            "    <InputEncoding>UTF-8</InputEncoding>",
-            #'    <Image height="16" width="16" type="image/x-icon">http://marcyes.com/favicon.ico</Image>',
-            "",
-            #"    <Contact>name@email.com</Contact>",
-            '    <Url type="text/html" template="{}" method="GET">'.format(
-                host
-            ),
-            '        <Param name="q" value="{searchTerms}"/>',
-            #'        <Param name="collection" value="default_collection"/>',
-            '        <Param name="opensearch" value="1"/>',
-            "    </Url>",
-            "    <moz:SearchForm>{}</moz:SearchForm>".format(host),
-            "    <SyndicationRight>limited</SyndicationRight>",
-            "",
-            "    <AdultContent>false</AdultContent>",
-            "    <Language>en-us</Language>",
-            "</OpenSearchDescription>",
-        ])
+    draft docs:
+        https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md
+    """
+    async def GET(self) -> Annotated[str, "application/opensearchdescription+xml"]:
+        # the xmlns doesn't resolve, see: https://github.com/dewitt/opensearch/issues/3
+        # That doesn't seem to matter though:
+        #   The actual namespace itself, often a IRI, is of no real
+        #   consequence. It should be unique, so people tend to choose a
+        #   IRI/URI that they own, but it has no greater meaning than that.
+        #   Sometimes people will place the schema (definition) for the XML at
+        #   the specified IRI, but that is a convention of some people only.
+        return Template("""
+            <?xml version="1.0" encoding="UTF-8"?>
+
+            <OpenSearchDescription
+                xmlns="http://a9.com/-/spec/opensearch/1.1/">
+
+                <ShortName>bounce</ShortName>
+                <Description>Bounce Search</Description>
+                <InputEncoding>UTF-8</InputEncoding>
+
+                <Url type="text/html"
+                    method="GET"
+                    template="$HOST?q={searchTerms}" />
+
+                <Url type="application/x-suggestions+json"
+                    rel="suggestions"
+                    template="$HOST?q={searchTerms}" />
+
+                <SyndicationRight>limited</SyndicationRight>
+                <AdultContent>false</AdultContent>
+                <Language>en-us</Language>
+            </OpenSearchDescription>
+        """).substitute(
+            HOST=self.request.url.host(),
+        )
+
+
+#         return Template("""
+#             <?xml version="1.0" encoding="UTF-8"?>
+# 
+#             <OpenSearchDescription
+#                 xmlns="http://a9.com/-/spec/opensearch/1.1/"
+#                 xmlns:suggestions="$SUG_NS">
+# 
+#                 <ShortName>bounce</ShortName>
+#                 <Description>Bounce Search</Description>
+#                 <InputEncoding>UTF-8</InputEncoding>
+# 
+#                 <Url type="text/html"
+#                     method="GET"
+#                     template="$HOST?q={searchTerms}" />
+# 
+#                 <Url type="application/x-suggestions+json"
+#                     rel="suggestions"
+#                     template="$HOST?q={searchTerms}" />
+# 
+#                 <SyndicationRight>limited</SyndicationRight>
+#                 <AdultContent>false</AdultContent>
+#                 <Language>en-us</Language>
+#             </OpenSearchDescription>
+#         """).substitute(
+#             HOST=self.request.url.host(),
+#             SUG_NS="https://opensearch.org/specifications/opensearch/extensions/suggestions/1.1",
+#         )
+
+#                 <Url type="text/html" template="$host" method="GET">
+#                     <Param name="q" value="{searchTerms}"/>
+#                     <Param name="collection" value="default_collection"/>
+#                     <Param name="opensearch" value="1"/>
+#                 </Url>
+
+#         return "\n".join([
+#             '<?xml version="1.0" encoding="UTF-8"?>',
+#             "",
+#             (
+#                 '<OpenSearchDescription'
+#                 ' xmlns="http://a9.com/-/spec/opensearch/1.1/"'
+#                 ' xmlns:moz="http://www.mozilla.org/2006/browser/search/">'
+#             ),
+#             "    <ShortName>bounce</ShortName>",
+#             "    <Description>Bounce Search</Description>",
+#             "    <InputEncoding>UTF-8</InputEncoding>",
+#             #'    <Image height="16" width="16" type="image/x-icon">http://marcyes.com/favicon.ico</Image>',
+#             "",
+#             #"    <Contact>name@email.com</Contact>",
+#             '    <Url type="text/html" template="{}" method="GET">'.format(
+#                 host
+#             ),
+#             '        <Param name="q" value="{searchTerms}"/>',
+#             #'        <Param name="collection" value="default_collection"/>',
+#             '        <Param name="opensearch" value="1"/>',
+#             "    </Url>",
+#             "    <moz:SearchForm>{}</moz:SearchForm>".format(host),
+#             "    <SyndicationRight>limited</SyndicationRight>",
+#             "",
+#             "    <AdultContent>false</AdultContent>",
+#             "    <Language>en-us</Language>",
+#             "</OpenSearchDescription>",
+#         ])
 
 
 class List(Controller):
-    content_type = "text/html"
-
-    @param("q", default="", type=lambda q: q.lower(), help="The query value")
-    async def GET(self, q):
+    #content_type = "text/html"
+    #@param("q", default="", type=lambda q: q.lower(), help="The query value")
+    async def GET(self, q: str = "") -> str:
         lines = []
         lines.append('<table style="width: 100%;" border="1">')
         lines.append('<tr>')
@@ -173,15 +247,19 @@ class List(Controller):
         lines.append('<th>Help</th>')
         lines.append('</tr>')
 
+        if q:
+            q = q.lower()
+
         # for display, sort the commands in alphabetical order
         cs = sorted(commands, key=lambda cmd: cmd[0])
 
         for cmd, val, note in cs:
-            if q and q not in cmd.lower(): continue
+            if q and q not in cmd.lower():
+                continue
             lines.append('<tr >')
             lines.append('<td style="padding: 10px;">{}</td>'.format(cmd))
             lines.append('<td style="padding: 10px;">')
-            if re.match("\S://", val):
+            if re.match(r"\S://", val):
                 lines.append(val)
 
             else:
@@ -194,14 +272,51 @@ class List(Controller):
         lines.append('</table>')
         return "\n".join(lines)
 
+#     def get_cmds(self, q: str) -> Iterable[tuple[str, str, str]]:
+#         if q:
+#             q = q.lower()
+# 
+#         # for display, sort the commands in alphabetical order
+#         cs = sorted(commands, key=lambda cmd: cmd[0])
+# 
+#         for cmd, val, note in cs:
+#             if q and q not in cmd.lower():
+#                 continue
+
+
+class Suggest(Controller):
+    """Suggestions
+
+    https://github.com/dewitt/opensearch/blob/master/mediawiki/Specifications/OpenSearch/Extensions/Suggestions/1.1/Draft%201.wiki
+    """
+    async def GET(
+        self,
+        q: str = ""
+    ) -> Annotated[
+        list[
+            str, # q
+            list[str], # matching search terms
+            list[str], # descriptions
+        ],
+        "application/x-suggestions+json",
+    ]:
+        search_terms = []
+        descriptions = []
+        for keyword, info in commands.commands.items():
+            if keyword.startswith(q):
+                search_terms.append(keyword)
+                descriptions.append(info["note"])
+
+        return [q, search_terms, descriptions]
+
 
 class Healthcheck(Controller):
     """Here mainly for a docker healthcheck
 
     https://docs.docker.com/reference/dockerfile/#healthcheck
     """
-    content_type="text/plain"
+    #content_type="text/plain"
 
-    async def GET(self):
+    async def GET(self) -> Annotated[str, "text/plain"]:
         return "HEALTHY"
 

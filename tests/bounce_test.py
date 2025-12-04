@@ -150,8 +150,11 @@ class OpensearchTest(TestCase):
         with s:
             r = self.fetch(s.child("opensearch.xml"))
             self.assertEqual(200, r.code)
+            media_type = "application/opensearchdescription+xml"
+            content_type = r.headers.get("Content-Type")
             self.assertTrue(
-                r.headers.get("Content-Type").startswith("text/xml")
+                content_type.startswith(media_type),
+                f"{content_type} is not {media_type}",
             )
 
 
@@ -164,4 +167,19 @@ class ListTest(TestCase):
             self.assertTrue(
                 r.headers.get("Content-Type").startswith("text/html")
             )
+
+
+class SuggestTest(TestCase):
+    def test_success(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child("suggest"), query={"q": "g"})
+            self.assertEqual(200, r.code)
+            media_type = "application/x-suggestions+json"
+            content_type = r.headers.get("Content-Type")
+            self.assertTrue(
+                content_type.startswith(media_type),
+                f"{content_type} is not {media_type}",
+            )
+            self.assertEqual("g", r.json()[0])
 

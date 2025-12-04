@@ -32,7 +32,7 @@ class Q(String):
         return Url(self)
 
     def is_url(self):
-        return True if re.match("\S+://\S+", self) else False
+        return True if re.match(r"\S+://\S+", self) else False
 
     def match(self, regex, flags=re.I):
         return re.match(regex, flags=flags)
@@ -54,7 +54,7 @@ class Commands(object):
         return Q(val).is_url()
 
     def add(self, commands, val, note="", default=False, plus=True):
-        cmds = re.split("\s+", commands)
+        cmds = re.split(r"\s+", commands)
         if default:
             self.default_cmd = cmds[0]
 
@@ -84,7 +84,7 @@ class Commands(object):
             logger.debug("q is a url, redirecting")
             return q
 
-        bits = re.split("\s+", q, 1)
+        bits = re.split(r"\s+", q, 1)
         cmd = bits[0].lower()
         if cmd in self.commands:
             logger.debug("Command {} was found".format(cmd))
