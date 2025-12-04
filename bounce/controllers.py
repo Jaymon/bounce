@@ -5,7 +5,6 @@ from typing import Annotated
 from collections.abc import Iterable
 from string import Template
 
-#from endpoints import Controller, param
 from endpoints import Controller
 
 from .core import Q
@@ -16,9 +15,14 @@ logger = logging.getLogger(__name__)
 
 
 class Default(Controller):
-    #content_type = "text/html"
+    """The bounce homepage
 
-    #@param("q", default="", type=Q, help="The query value")
+    Usually, you would call this like this:
+
+        <HOST>?q=<QUERY>
+
+    If you don't include the `q` though it will give you a search box
+    """
     async def ANY(self, q: Q|None = None, **kwargs) -> str:
         """
         :param q: The query value
@@ -118,8 +122,7 @@ class Favicon_ico(Controller):
 
 
 class Robots_txt(Controller):
-    #content_type="text/plain"
-
+    """Reject all robots"""
     async def GET_txt(self) -> str:
         return "\n".join([
             "User-agent: *",
@@ -135,6 +138,10 @@ class Opensearch_xml(Controller):
 
     draft docs:
         https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md
+
+    Other helpful links:
+        https://theorangeone.net/posts/opensearch-browser-search-engine/
+        https://perishablepress.com/custom-opensearch-functionality-for-your-website/
     """
     async def GET(self) -> Annotated[str, "application/opensearchdescription+xml"]:
         # the xmlns doesn't resolve, see: https://github.com/dewitt/opensearch/issues/3
@@ -171,73 +178,8 @@ class Opensearch_xml(Controller):
         )
 
 
-#         return Template("""
-#             <?xml version="1.0" encoding="UTF-8"?>
-# 
-#             <OpenSearchDescription
-#                 xmlns="http://a9.com/-/spec/opensearch/1.1/"
-#                 xmlns:suggestions="$SUG_NS">
-# 
-#                 <ShortName>bounce</ShortName>
-#                 <Description>Bounce Search</Description>
-#                 <InputEncoding>UTF-8</InputEncoding>
-# 
-#                 <Url type="text/html"
-#                     method="GET"
-#                     template="$HOST?q={searchTerms}" />
-# 
-#                 <Url type="application/x-suggestions+json"
-#                     rel="suggestions"
-#                     template="$HOST?q={searchTerms}" />
-# 
-#                 <SyndicationRight>limited</SyndicationRight>
-#                 <AdultContent>false</AdultContent>
-#                 <Language>en-us</Language>
-#             </OpenSearchDescription>
-#         """).substitute(
-#             HOST=self.request.url.host(),
-#             SUG_NS="https://opensearch.org/specifications/opensearch/extensions/suggestions/1.1",
-#         )
-
-#                 <Url type="text/html" template="$host" method="GET">
-#                     <Param name="q" value="{searchTerms}"/>
-#                     <Param name="collection" value="default_collection"/>
-#                     <Param name="opensearch" value="1"/>
-#                 </Url>
-
-#         return "\n".join([
-#             '<?xml version="1.0" encoding="UTF-8"?>',
-#             "",
-#             (
-#                 '<OpenSearchDescription'
-#                 ' xmlns="http://a9.com/-/spec/opensearch/1.1/"'
-#                 ' xmlns:moz="http://www.mozilla.org/2006/browser/search/">'
-#             ),
-#             "    <ShortName>bounce</ShortName>",
-#             "    <Description>Bounce Search</Description>",
-#             "    <InputEncoding>UTF-8</InputEncoding>",
-#             #'    <Image height="16" width="16" type="image/x-icon">http://marcyes.com/favicon.ico</Image>',
-#             "",
-#             #"    <Contact>name@email.com</Contact>",
-#             '    <Url type="text/html" template="{}" method="GET">'.format(
-#                 host
-#             ),
-#             '        <Param name="q" value="{searchTerms}"/>',
-#             #'        <Param name="collection" value="default_collection"/>',
-#             '        <Param name="opensearch" value="1"/>',
-#             "    </Url>",
-#             "    <moz:SearchForm>{}</moz:SearchForm>".format(host),
-#             "    <SyndicationRight>limited</SyndicationRight>",
-#             "",
-#             "    <AdultContent>false</AdultContent>",
-#             "    <Language>en-us</Language>",
-#             "</OpenSearchDescription>",
-#         ])
-
-
 class List(Controller):
-    #content_type = "text/html"
-    #@param("q", default="", type=lambda q: q.lower(), help="The query value")
+    """List all the configured keywords"""
     async def GET(self, q: str = "") -> str:
         lines = []
         lines.append('<table style="width: 100%;" border="1">')
@@ -272,20 +214,9 @@ class List(Controller):
         lines.append('</table>')
         return "\n".join(lines)
 
-#     def get_cmds(self, q: str) -> Iterable[tuple[str, str, str]]:
-#         if q:
-#             q = q.lower()
-# 
-#         # for display, sort the commands in alphabetical order
-#         cs = sorted(commands, key=lambda cmd: cmd[0])
-# 
-#         for cmd, val, note in cs:
-#             if q and q not in cmd.lower():
-#                 continue
-
 
 class Suggest(Controller):
-    """Suggestions
+    """Return search suggestions
 
     https://github.com/dewitt/opensearch/blob/master/mediawiki/Specifications/OpenSearch/Extensions/Suggestions/1.1/Draft%201.wiki
     """
@@ -315,8 +246,6 @@ class Healthcheck(Controller):
 
     https://docs.docker.com/reference/dockerfile/#healthcheck
     """
-    #content_type="text/plain"
-
     async def GET(self) -> Annotated[str, "text/plain"]:
         return "HEALTHY"
 
