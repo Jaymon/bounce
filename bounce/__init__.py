@@ -9,7 +9,7 @@ from .config import commands
 from . import config
 
 
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 
 
 logger = logging.getLogger(__name__)
