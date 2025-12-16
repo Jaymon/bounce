@@ -61,7 +61,9 @@ class Commands(object):
         for cmd in cmds:
             cmd = cmd.lower()
             if cmd in self.commands:
-                logger.warning("{} already assigned".format(cmd))
+                logger.warning(
+                    "Bounce \"{}\" command already assigned".format(cmd)
+                )
 
             if isinstance(val, str):
                 self.commands[cmd] = {

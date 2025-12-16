@@ -8,22 +8,16 @@ To customize, create a `bounce_config.py` file and import the `commands`:
     from bounce import commands
 
     commands.add(
-        "<KEYWORD>",
+        "<KEYWORD>[ <KEYWORD>...]",
         "<SEARCH-URL>",
         "<DESCRIPTION>",
     )
 
 As many keywords as you want can be added, if you use the same keyword in a
-later `.add` call it will overright the previous one.
+later `.add` call it will override the previous one.
 
-There are a couple of "default" keywords to show how they are added
+This file contains a couple of "default" keywords to show how they are added
 """
-import re
-import inspect
-import datetime
-import calendar
-import builtins
-from urllib.parse import quote_plus, unquote_plus
 
 from .core import Commands, Url
 
@@ -50,19 +44,36 @@ commands.add(
 commands.add(
     "ddg",
     "https://duckduckgo.com/?q={}&ia=web",
-    "Duckduckgo search",
+    "DuckDuckGo search",
 )
 
 def yt_callback(q):
     # updated to just go to homescreen on 1-21-2021
     if q:
         url = "http://www.youtube.com/results?search=Search&search_query={}".format(q)
+
     else:
         url = "http://www.youtube.com/"
+
     return url
 commands.add(
     "yt",
     yt_callback,
     "Youtube search",
+)
+
+# 5-19-2016
+def list_callback(q):
+    if q:
+        ret = Url(path="/list", query_kwargs={"q": q})
+
+    else:
+        ret = Url(path="/list")
+
+    return ret
+commands.add(
+    "bounce list ls",
+    list_callback,
+    "List all the available commands/keywords",
 )
 
