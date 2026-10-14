@@ -17,11 +17,8 @@ It's a keyword search engine, meaning you can configure it to redirect `yt` to Y
 
         $ curl "http://127.0.0.1:5000/?q=yt weird al" 
 
-You can also run it using any WSGI server like [uWSGI](http://projects.unbit.it/uwsgi/) using the included `bouncefile.py` as the `wsgi-file`.
-
 
 ## Configuration
-
 
 ### url configuration
 
@@ -62,7 +59,7 @@ value can also be a callback:
 
 ```python
 def callback(q):
-    # manipulat q in some way and then return where you would like to go
+    # manipulate q in some way and then return where you would like to go
     return 'http://some.url.that.needed.manipulation.q.com={}'.format(q)
 
 commands.add("foo bar", callback)
@@ -104,3 +101,16 @@ Which you can then use to test:
 
 And that's it.
 
+### Docker
+
+Start the bounce server in a docker container:
+
+```
+docker build --no-cache -t bounce . && docker run -p 127.0.0.1:4100:4100 -d --name bounce bounce
+```
+
+Stop and remove the docker container:
+
+```
+docker stop bounce && docker rm bounce
+```

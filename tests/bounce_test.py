@@ -1,4 +1,3 @@
-#from wsgiref.simple_server import make_server
 
 import testdata
 from testdata import TestCase
@@ -16,20 +15,6 @@ testdata.basic_logging()
 
 
 class Server(ServerThread):
-
-
-#     def __new__(cls, **kwargs):
-#         host = kwargs.pop("host", "")
-#         port = kwargs.pop("port", 0)
-#         app = kwargs.pop("application", application)
-#         with make_server(host, port, app) as server:
-#             return super().__new__(cls, server, **kwargs)
-
-#     def __new__(cls, **kwargs):
-#         kwargs.setdefault("wsgifile", "bounce/wsgi.py")
-#         server = WSGIServer(**kwargs)
-#         return super().__new__(cls, server, **kwargs)
-
     def __new__(cls, **kwargs):
         kwargs.setdefault("application", application)
         server = WSGIServer(**kwargs)

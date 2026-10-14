@@ -1,19 +1,16 @@
-# -*- coding: utf-8 -*-
 import os
 import sys
 import argparse
 import subprocess
 from wsgiref.simple_server import make_server
 
-#from endpoints.interface import Application
 from endpoints import Application as ServerApplication
 from datatypes import logging, Host
 
 from bounce import commands, __version__, import_config
-#from wsgi import application as wsgi_app
 
 
-# access this as `bounce.__main__:application`
+# access this as `bounce.__main__:application` in asgi and wsgi servers
 application = ServerApplication("bounce.controllers")
 
 
@@ -22,7 +19,6 @@ def app_serve(args):
 
     start a local bounce server
     """
-#     app = Application("bounce.controllers")
     with make_server(args.host.hostname, args.host.port, application) as s:
         hostloc = ":".join(map(str, s.server_address))
         print(f"Serving at {hostloc}")
