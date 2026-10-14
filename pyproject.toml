@@ -2,7 +2,7 @@
 requires-python = ">=3.10"
 name = "bounce"
 dynamic = [
-  "version"
+  "version",
 ]
 readme = "README.md"
 description = "Search using special commands"
@@ -17,17 +17,17 @@ classifiers = [
   "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
 ]
 dependencies = [
-  "datatypes",
-  "endpoints",
+  "datatypes~=0.37.0",
+  "endpoints~=10.1.0",
 ]
 license = "MIT"
 license-files = [
-  "LICENSE.txt"
+  "LICENSE.txt",
 ]
 
 [build-system]
 requires = [
-  "setuptools>=62.3.0"
+  "setuptools>=62.3.0",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -36,14 +36,14 @@ exclude = [
   "tests*",
   "example*",
   "*_test*",
-  "docs*"
+  "docs*",
 ]
 include = [
-  "bounce*"
+  "bounce*",
 ]
 
 [project.scripts]
-bounce = "bounce.__main__:application"
+bounce = "bounce.__main__:MainApplication"
 
 [tool.setuptools.dynamic]
 version = { attr = "bounce.__version__" }
@@ -57,7 +57,6 @@ tests = [
   "testdata",
 ]
 asgi = [
-  "daphne"
+  "uvicorn~=0.41.0",
 ]
-
 

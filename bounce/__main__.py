@@ -3,11 +3,18 @@ import os
 import sys
 import argparse
 import subprocess
+from wsgiref.simple_server import make_server
 
-from endpoints.interface.wsgi import Application, Server
+#from endpoints.interface import Application
+from endpoints import Application as ServerApplication
 from datatypes import logging, Host
 
 from bounce import commands, __version__, import_config
+#from wsgi import application as wsgi_app
+
+
+# access this as `bounce.__main__:application`
+application = ServerApplication("bounce.controllers")
 
 
 def app_serve(args):
@@ -15,12 +22,10 @@ def app_serve(args):
 
     start a local bounce server
     """
-    kwargs = {
-        "server_address": args.host,
-        "application": Application("bounce.controllers")
-    }
-
-    with Server(**kwargs) as s:
+#     app = Application("bounce.controllers")
+    with make_server(args.host.hostname, args.host.port, application) as s:
+        hostloc = ":".join(map(str, s.server_address))
+        print(f"Serving at {hostloc}")
         s.serve_forever()
 
     return 0
@@ -46,7 +51,7 @@ def app_q(args):
     return code
 
 
-def application():
+def MainApplication():
     """bounce command
 
     This is the main hook to run bounce commands
@@ -121,5 +126,5 @@ def application():
 
 
 if __name__ == "__main__":
-    sys.exit(application())
+    sys.exit(MainApplication())
 

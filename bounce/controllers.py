@@ -123,7 +123,7 @@ class Favicon_ico(Controller):
 
 class Robots_txt(Controller):
     """Reject all robots"""
-    async def GET_txt(self) -> str:
+    async def GET(self) -> str:
         return "\n".join([
             "User-agent: *",
             "Disallow: /",

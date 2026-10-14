@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from endpoints.interface.asgi import Application
+from endpoints import Application
 
 application = Application("bounce.controllers")
 
