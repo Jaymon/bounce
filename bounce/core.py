@@ -6,7 +6,7 @@ from urllib.parse import quote_plus, quote, unquote_plus
 
 from datatypes import (
     String,
-    Url
+    Url,
 )
 
 
@@ -105,8 +105,6 @@ class Commands(object):
         if "callback" in self.commands[cmd]:
             logger.debug("Command {} is a callback".format(cmd))
             ret = self.commands[cmd]["callback"](question)
-            if isinstance(ret, str):
-                ret = str(ret)
 
         else:
             # http://stackoverflow.com/a/9345102/5006

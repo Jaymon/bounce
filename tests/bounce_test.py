@@ -90,6 +90,16 @@ class ListTest(TestCase):
                 r.headers.get("Content-Type").startswith("text/html")
             )
 
+    def test_redirect(self):
+        s = Server()
+        with s:
+            r = self.fetch(s.child(query_kwargs={"q": "list"}))
+            body = r.text
+            self.assertEqual(200, r.code)
+            self.assertTrue("referrer" in body)
+            self.assertTrue("refresh" in body)
+            self.assertTrue("/list" in body)
+
 
 class SuggestTest(TestCase):
     def test_success(self):

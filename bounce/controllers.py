@@ -7,7 +7,7 @@ from string import Template
 
 from endpoints import Controller
 
-from .core import Q
+from .core import Q, Url
 from .config import commands
 
 
@@ -36,7 +36,7 @@ class Default(Controller):
                 controller=self
             )
 
-            if commands.is_url(v):
+            if commands.is_url(v) or isinstance(v, Url):
                 body = [
                     "<!DOCTYPE html>",
                     "<html>",
