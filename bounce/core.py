@@ -50,8 +50,8 @@ class Commands(object):
     def quote(self, val):
         return Q(val).quote()
 
-    def is_url(self, val):
-        return Q(val).is_url()
+    def is_url(self, val: Url|str) -> bool:
+        return isinstance(val, Url) or Q(val).is_url()
 
     def add(self, commands, val, note="", default=False, plus=True):
         cmds = re.split(r"\s+", commands)

@@ -36,7 +36,7 @@ class Default(Controller):
                 controller=self
             )
 
-            if commands.is_url(v) or isinstance(v, Url):
+            if commands.is_url(v):
                 body = [
                     "<!DOCTYPE html>",
                     "<html>",
